@@ -1,0 +1,122 @@
+@import url(//fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,300italic,400italic,600italic);
+
+@import url(//fonts.googleapis.com/css?family=Kaushan+Script);
+
+.msg {
+    color: red;
+}
+
+#ChangePassword {
+    border: 2px solid #1b5db5;
+    background-color: #F2F2F2;
+}
+
+.form-box .body {
+    padding: 0 !important;
+    font-family: "Source Sans Pro",sans-serif;
+}
+
+#m_PasswordChange {
+    font-family: "Source Sans Pro",sans-serif;
+    font-size: 20px;
+    text-align: center;
+    color: #1b5db5;
+    margin-bottom: 10px;
+    padding-top: 10px;
+}
+
+#m_emailTxt {
+    font-family: "Source Sans Pro",sans-serif;
+    font-size: 14px;
+    padding-left: 20px;
+}
+
+#IdCurrentPassword, #IdNewPassword, #IdConfirmNewPassword,#m_Emailid, #m_Account,#IdPassword, #IdUserName {
+    width: 205px !important;
+    height: 30px;
+    margin-top: 15px;
+    /*padding: 0 !important;*/
+    color: #bdbdbd !important;
+    font-family: "Source Sans Pro",sans-serif;
+    font-size: 14px;
+    height: 30px;
+    border: 1px solid #D8D8D8;
+    padding: 3px;
+}
+
+#IdCurrentPassword:focus, #IdNewPassword:focus, #IdConfirmNewPassword:focus,#m_Emailid:focus,#m_forgotpassword :focus,
+#IdPassword:focus, #IdUserName:focus {
+        border: 1px solid #848484 !important;
+       color: #555 !important;
+    }
+
+
+#m_forgotpassword {
+    color: #1b5db5;
+    font-size: small;
+     cursor: pointer;
+}
+
+#m_IdForgotPassword, #m_ForgotPasswordCancel {
+    padding: 3px;
+    cursor: pointer;
+    margin-right: 0;
+}
+#IdChangePassword, #m_ChangePasswordCancelBtn {
+    padding: 3px;
+    cursor: pointer;
+    margin-right: 0;
+}
+.bg-black {
+    min-height: 640px;
+}
+
+.footer3 {
+    color: #999;
+    float: right;
+    padding: 27px 30px 0;
+    line-height: 10px;
+}
+
+
+.form-group {
+    padding-left: 80px !important;
+    margin-top: 0 !important;
+    margin-bottom: 0px;
+}
+
+.form-control {
+    color: #555;
+    transition: border-color 0.15s ease-in-out 0s, box-shadow 0.15s ease-in-out 0s;
+    font-size: 14px !important;
+    line-height: 1.42857;
+    box-sizing: border-box;
+    vertical-align: middle;
+}
+
+
+#login-box {
+    margin-bottom: 30px;
+    border: 2px solid #1b5db5;
+    background-color: #F2F2F2;
+}
+
+#m_userLogin {
+    font-family: "Source Sans Pro",sans-serif;
+    font-size: 20px;
+    text-align: center;
+    color: #1b5db5;
+    margin-bottom: 10px;
+    padding-top:10px;
+}
+
+#m_LoginButton {
+    font-family: "Source Sans Pro",sans-serif;
+    font-size: 14px;
+    padding: 5px 20px;
+    cursor: pointer;
+    /*width: 80%;*/
+}   
+.btn{
+    font-size:14px !important;
+}

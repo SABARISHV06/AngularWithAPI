@@ -1,0 +1,206 @@
+﻿h4,
+.h4{
+  margin-top: 0 !important;
+  margin-bottom: 0 !important;
+}
+
+h2,
+.h2{
+  margin-top: 10px !important;
+  margin-bottom: 10px !important;
+}
+
+.form-control {
+    font-size: 12px !important;
+}
+
+.btn {
+    font-size: 12px !important;
+}
+
+.btn-toolbar{
+  text-align: center;
+}
+
+.mtibtn-block {
+  display: block;
+  width: 100%;
+  /*padding-right: 0;*/
+  padding-left: 0;
+}
+
+.mti-btn-primary {
+  color: #fff;
+  background-color: #1B5DB5;
+  border-color: #357ebd;
+  border-style: none;
+  border-radius: 3px;
+  padding: 2px 10px;
+  margin-right: 10px;
+}
+
+.modal-header, .modal-footer {
+	background-color:#f2f2f2;
+    font-weight:800;
+    font-size:12px;
+}
+
+.modal-footer i, .well i {
+    font-size:20px;
+    color:#c0c0c0;
+}
+
+.modal-body {
+	padding:0px;
+}
+
+.mti-container {
+  /*padding-right: 15px;
+  padding-left: 15px;*/
+  margin-right: 0px;
+  margin-left: 0px;
+}
+@media (min-width: 768px) {
+  .mti-container {
+    width: 750px;
+  }
+}
+@media (min-width: 992px) {
+  .mti-container {
+    width: 970px;
+  }
+}
+@media (min-width: 1200px) {
+  .mti-container {
+    width: 100%;
+  }
+}
+
+.ta-editor {
+  min-height: 300px;
+  height: auto;
+  overflow: auto;
+  font-family: inherit;
+  font-size: 100%;
+}
+/*PDFJS css*/
+.pdf-controls { width: 100%; display: block; background: #e5e5e5;}
+.fixed { position: fixed; top: 0; left: calc(50% - 480px); z-index: 100; width: 100%; padding: 1em; background: rgba(238, 238, 238,.9); width: 960px; }
+.pdfform  {z-index:100; position: relative; background-color:orange }
+
+.formFields input, .formFields button, .formFields select, .formFields div {
+    position: absolute;
+}
+
+.formFields input[type='text']{
+    background-color: #e5e5e5;
+    padding: 0;
+    border: 1px solid #f4f3ea;
+    color: #000;
+}
+
+.formFields select {
+    background-color: #e5e5e5;
+}
+
+.formFields input:focus {
+    border: 1px solid #73A6FF;
+    background:#EFF5FF;
+    color: #000;
+}
+
+.formFields input[type=button]:hover, .formFields input[type=button]:active {
+    font-weight: bold;
+    color:#000080;
+    outline-color: #000080;
+}
+
+#mainContent {
+    width: 860px;
+    min-height: 500px;
+    position:relative;
+    z-index:2;
+}
+
+canvas{
+    /*border: 3px solid #ccc;*/
+    /*width: 100%;*/
+    /*height: auto;*/
+}
+ /*
+See https://github.com/mgcrea/angular-strap/issues/398
+*/
+.datepicker.dropdown-menu {
+  width: 300px;
+   height: 300px; 
+}
+.datepicker.dropdown-menu button {
+  outline: none;
+  border: 0px;
+}
+.datepicker.dropdown-menu tbody {
+   height: 300px; 
+}
+.datepicker.dropdown-menu tbody button {
+  /*padding: 6px;*/
+  width: auto !important;
+}
+.datepicker.dropdown-menu.datepicker-mode-1 tbody button, .datepicker.dropdown-menu.datepicker-mode-2 tbody button {
+  height: auto;
+  width: 5% !important;
+}
+.datepicker.dropdown-menu thead button.btn-block {
+  width: 50%;
+  padding: 2px;
+}
+.datepicker.dropdown-menu.datepicker-mode-1 thead button.btn-block, .datepicker.dropdown-menu.datepicker-mode-2 thead button.btn-block {
+  width: 50%;
+  padding: 2px;
+}
+
+.dropdown-menu.datepicker {
+  width: 300px;
+   height: 250px; 
+}
+.dropdown-menu.datepicker button {
+  outline: none;
+  border: 0px;
+  padding: 2px;
+}
+
+.dropdown-menu.datepicker tbody {
+   height: 250px; 
+}
+.dropdown-menu.datepicker tbody button {
+  padding: 6px;
+  width: auto !important;
+  padding: 2px;
+}
+.dropdown-menu.datepicker thead button.btn-block {
+  width: 50%;
+  padding: 2px;
+}
+
+.dropdown-menu.datepicker-mode-1 tbody button, .dropdown-menu.datepicker-mode-2 tbody button {
+  height: auto;
+  width: auto !important;
+}
+
+
+/*
+See https://github.com/mgcrea/angular-strap/issues/430#issuecomment-49822765
+*/
+bs-datepicker[bs-show] .datepicker.dropdown-menu,
+bs-datepicker[bs-show] + .datepicker.dropdown-menu,
+bs-datepicker[data-bs-show] .datepicker.dropdown-menu,
+bs-datepicker[data-bs-show] + .datepicker.dropdown-menu {
+  position: relative;
+  top: 0 !important;
+  left: 0 !important;
+}
+
+
+.submitted .ng-invalid
+{
+    border:1px solid #f00;
+}

@@ -1,0 +1,95 @@
+<div id="content-wrapper">
+    <div class="container">
+        <h1 class="pull-left">Pay Plan Details</h1>
+        <div>
+            <ul class="btns pull-right">
+                <li><a class="btn" href="javascript:void(0);" ng-click="GoToAddPayPlan()"><i class="fa fa-1x fa-plus"></i>Add New Pay plan </a></li>
+            </ul>
+        </div>
+        <div class="clearfix"></div>
+        <div class="table-responsive">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th ng-click="Sort('PlanID')">
+                            Pay Plan ID
+                            <span class="glyphicon sort-icon" ng-show="SortKey=='PlanID'" ng-class="{'glyphicon-chevron-up':Order,'glyphicon-chevron-down':!Order}"></span>
+                        </th>
+                        <th ng-click="Sort('PlanName')">
+                            Plan Name
+                            <span class="glyphicon sort-icon" ng-show="SortKey=='PlanName'" ng-class="{'glyphicon-chevron-up':Order,'glyphicon-chevron-down':!Order}"></span>
+                        </th>
+                        <th ng-click="Sort('BasisType')">
+                            Basis
+                            <span class="glyphicon sort-icon" ng-show="SortKey=='BasisType'" ng-class="{'glyphicon-chevron-up':Order,'glyphicon-chevron-down':!Order}"></span>
+                        </th>
+                        <th ng-click="Sort('BMQuotaBonus')">
+                            Bi-Monthly Bonus
+                            <span class="glyphicon sort-icon" ng-show="SortKey=='BMQuotaBonus'" ng-class="{'glyphicon-chevron-up':Order,'glyphicon-chevron-down':!Order}"></span>
+                        </th>
+                        <th ng-click="Sort('TenureBonus')">
+                            Quarterly Bonus
+                            <span class="glyphicon sort-icon" ng-show="SortKey=='TenureBonus'" ng-class="{'glyphicon-chevron-up':Order,'glyphicon-chevron-down':!Order}"></span>
+                        </th>
+                        <th>Actions</th>
+                        <th id="search-wrapper"><div class="search-icon fa fa-search fa-lg"></div><input class="search" type="search" placeholder="Search" ng-model="search" /></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!--<tr ng-if="Planlists.length==0" >
+                      <td>  No Payplan record added</td>
+                    </tr>-->
+                    <tr dir-paginate="plan in Planlists|orderBy:SortKey:Order|filter:search|itemsPerPage:pageSize"  ng-class="{'bg-danger':plan.IsActive==0}">
+                        <td>{{plan.PlanID}}</td>
+                        <td>{{plan.PlanName}}</td>
+                        <td>{{plan.BasisType}}</td>
+                        <td>{{plan.BMQuotaBonus}}</td>
+                        <td>{{plan.TenureBonus}}</td>
+                        <td ng-if="plan.IsActive==1">
+                            <ul class="no-padding action-icons">
+                                <li><a href="javascript:void(0);" ng-click="GoToViewPayPlan(plan)" data-toggle="tooltip" title="View"><i class="fa fa-lg fa-eye"></i></a></li>
+                                <li> <a href="javascript:void(0);" ng-click="GoToEditPayPlan(plan)" data-toggle="tooltip" title="Edit"><i class="fa fa-lg fa-edit"></i></a></li>
+                                <li><a href="javascript:void(0);" ng-click="PlanActivateDeactivateConfirmation(plan)" class="active" data-toggle="tooltip" title="Active"><i class="fa fa-lg fa-circle"></i></a></li>
+                            </ul>
+
+                        </td>
+                        <td ng-if="plan.IsActive==0">
+                            <ul class="no-padding action-icons">
+                                <li><a href="javascript:void(0);" ng-click="GoToViewPayPlan(plan)"><i class="fa fa-lg fa-eye"></i></a></li>
+                                <li> <a href="javascript:void(0);"><i class="fa fa-lg fa-edit disabled"></i></a></li>
+                                <li><a href="javascript:void(0);" ng-click="PlanActivateDeactivateConfirmation(plan)" class="deactive" data-toggle="tooltip" title="DeActive"><i class="fa fa-lg fa-circle"></i></a></li>
+                            </ul>
+
+                        </td>
+                        <td></td>
+                    </tr>
+
+                </tbody>
+                <tbody ng-if="Planlists.length == 0">
+                    <tr>
+                        <td colspan="8" class="text-center text-danger">No Payplan record available.</td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="clearfix"></div>
+            <div class="col-md-3 bottom-space">
+                <select ng-init="pageSize" ng-model="pageSize">
+                    <option value="10" ng-selected="true">10</option>
+                    <option value="25">25</option>
+                    <option value="50">50</option>
+                </select> records per page
+            </div>
+            <div class="col-md-9">
+                <dir-pagination-controls max-size="10"
+                                         direction-links="true"
+                                         boundary-links="true">
+                </dir-pagination-controls>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    $('.search-icon').click(function () {
+        $('.search').val('').toggle();
+});
+</script>

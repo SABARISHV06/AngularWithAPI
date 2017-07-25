@@ -1,0 +1,56 @@
+﻿<div data-ng-controller="MenuNavigationControl">
+    <header>  
+        <nav class="navbar">
+            <div class="container">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar"> <span class="sr-only">Toggle navigation</span> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span> </button>
+                    <a class="navbar-brand hidden-xs" href="#"><img src="Content/images/logo.jpg" class="img-responsive" alt="Milner Sales Commission Logo"></a> <a class="navbar-brand hidden-lg hidden-md hidden-sm" href="#"><img src="Content/images/mob-logo.jpg" class="img-responsive" alt="Milner Sales Commission Logo"></a>
+                </div>
+                
+                <div class="top-menu">
+                    <!-- Welcome message based on user id-->
+                    <ul ng-if="LoggedinEmployee.RoleID" class="nav pull-right top-menu">
+                        <li class="welcome-msg pull-left"> Welcome, <span>{{LoggedinEmployee.FirstName!="" ? LoggedinEmployee.FirstName +' ' + LoggedinEmployee.LastName : "ADMIN" }}</span></li>
+                        <li class="pull-left"><a class="btn logout" href="/SalesWeb/LogOut.aspx">Logout</a></li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+      <div id="navbar" class="navbar-collapse collapse">
+        <div class="container">
+            <ul class="nav navbar-nav navbar-left">
+                <!-- Menu bar enable based on roles --> 
+                <li ng-class="{'active':SelectedTab === 'payplan'}"  ng-if="LoggedinEmployee.RoleID==RolesType.Administrator"><a href="javascript:void(0);" ng-click="GoToPayPlanDetails()">Pay Plan</a></li>
+                <li ng-class="{'active':SelectedTab === 'commission'}"  ng-if="LoggedinEmployee.RoleID==RolesType.SalesManager || LoggedinEmployee.RoleID==RolesType.GeneralManager || LoggedinEmployee.RoleID==RolesType.PayRoll || LoggedinEmployee.RoleID==RolesType.SalesRep"><a href="javascript:void(0);" ng-click="GoToCommissionslipDetails()">Commission Slip</a></li>
+                <li ng-class="{'active':SelectedTab === 'commission'}" ng-if="LoggedinEmployee.RoleID==RolesType.NonSalesEmployee"><a href="javascript:void(0);" ng-click="GoToCommissionslipDetails()">Tip Lead Slip</a></li>
+                <li ng-class="{'active':SelectedTab === 'employee'}"  ng-if="LoggedinEmployee.RoleID==RolesType.Administrator || LoggedinEmployee.RoleID==RolesType.PayRoll "><a  href="javascript:void(0);" ng-click="GoToEmployeeDetails()">Employees</a></li>
+                <li ng-class="{'active':SelectedTab === 'branch'}" ng-if="LoggedinEmployee.RoleID==RolesType.Administrator"><a href="javascript:void(0);" ng-click="GoToBranchDetails()">Branches</a></li>
+                <li ng-class="{'active':SelectedTab === 'saletype'}" ng-if="LoggedinEmployee.RoleID==RolesType.Administrator"><a href="javascript:void(0);" ng-click="GoToSaleTypeDetails()">Sales Type</a></li>
+                <li ng-class="{'active':SelectedTab === 'payrollconfiguration'}" ng-if="LoggedinEmployee.RoleID==RolesType.PayRoll"><a href="javascript:void(0);" ng-click="GoToPayrollConfigurationDetails()">Payroll Configuration</a></li>
+                <li ng-class="{'active':SelectedTab === 'reports'}"  ng-if="LoggedinEmployee.RoleID==RolesType.SalesManager || LoggedinEmployee.RoleID==RolesType.GeneralManager || LoggedinEmployee.RoleID==RolesType.PayRoll || LoggedinEmployee.RoleID==RolesType.SalesRep || LoggedinEmployee.RoleID==RolesType.NonSalesEmployee">
+                    <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown">Reports <b class="caret"></b></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="javascript:void(0);" ng-click="GoToSalesRepReports()">Employee</a></li>
+                        <li ng-if="LoggedinEmployee.RoleID==RolesType.PayRoll"><a href="javascript:void(0);" class="no-border" ng-click="GoToPaylocityGlReports()">Paylocity/GL</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div>
+    
+    <ng-include src="page" />
+
+</div>
+<script>
+function logout() {
+    try {
+        document.execCommand("ClearAuthenticationCache");
+    }
+    catch (e) {
+
+    }
+
+}
+</script>

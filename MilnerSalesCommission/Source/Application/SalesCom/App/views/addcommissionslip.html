@@ -1,0 +1,493 @@
+﻿<div id="content-wrapper" class="new-commission-slip">
+    <!--content-wrapper">-->
+    <div class="container">
+        <!--container-->
+        <h1>New Commission Slip</h1>
+        <form ng-submit="salescom.submit()" name="sraddcommissionform" class="form-horizontal">
+            <div class="form-wrapper">
+                <!--form-wrapper-->
+                <div class="form-group row">
+                    <div ng-if="LoggedinEmployee.RoleID==RolesType.SalesRep" class="col-md-2 required">
+                        <label for="saleperson-name" class="col-md-12 control-label">Salesperson Name</label>
+                        <div class="col-md-12">
+                            <input type="text" class="form-control" ng-model="Commissionslip.SalesPerson" name="Salesperson" id="Salesperson" required disabled>
+                            <span ng-show="sraddcommissionform.$dirty && sraddcommissionform.Salesperson.$error.required" class="text-danger field-validation-error">This is a required field</span>
+                        </div>
+                    </div>
+                    <div ng-if="LoggedinEmployee.RoleID==RolesType.PayRoll" class="col-md-2 required">
+                        <label for="saleperson-name" class="col-md-12 control-label">Salesperson Name</label>
+                        <div class="col-md-12">
+                            <!--<input type="text" class="form-control" ng-model="Commissionslip.SalesPerson" name="Salesperson" id="Salesperson" required disabled>-->
+                            <input type="text" ng-model="Commissionslip.SalesPerson" name="Salesperson" id="Salesperson" required uib-typeahead="person as person.LastName+','+person.FirstName for person in SRSalespersons | filter:{LastName:$viewValue} | limitTo:8" typeahead-on-select='onSalespersonselect($item, $model, $label)' uib-typeahead-wait-ms=100 class="form-control" ng-change="splitchange()" autocomplete="off">
+                            <span ng-show="sraddcommissionform.$dirty && sraddcommissionform.Salesperson.$error.required" class="text-danger field-validation-error">This is a required field</span>
+                        </div>
+                    </div>
+                    <div class="col-md-2 required">
+                        <label class="col-md-12 control-label">Entry Date</label>
+                        <div class="col-md-12">
+                            <div class="input-group date">
+                                <input class="form-control" type="text" value="" ng-model="Commissionslip.EntryDate" name="entrydate" id="entrydate" readonly>
+                                <!--<span class="input-group-addon"><span class="fa fa-calendar"> </span> </span>-->
+                                <span ng-show="sraddcommissionform.$dirty && sraddcommissionform.entrydate.$error.required" class="text-danger field-validation-error">This is a required field</span>
+                            </div>
+                            <input type="hidden" id="dtp_entrydate" value="" />
+                        </div>
+                    </div>
+                    <div class="col-md-3 required">
+                        <label class="col-md-12 control-label">Date of Sale</label>
+                        <div class="col-md-12">
+                            <div class="input-group date form_date" data-date="" data-date-format="mm/dd/yyyy" data-link-field="dtp_dateofsale" data-link-format="mm/dd/yyyy">
+                                <input class="form-control" size="16" type="text" value="" ng-model="Commissionslip.DateofSale" name="dateofsale" id="dateofsale" readonly>
+                                <span class="input-group-addon"><span class="fa fa-calendar"> </span> </span>
+                                <span ng-show="sraddcommissionform.$dirty && sraddcommissionform.dateofsale.$error.required" class="text-danger field-validation-error">This is a required field</span>
+                            </div>
+                            <input type="hidden" id="dtp_dateofsale" value="" />
+                        </div>
+                    </div>
+                    <div class="col-md-3 required">
+                        <label class="col-md-12 control-label">Created Date</label>
+                        <div class="col-md-12">
+                            <div class="input-group date form_date" data-date="" data-date-format="mm/dd/yyyy" data-link-field="dtp_createddate" data-link-format="mm/dd/yyyy">
+                                <input class="form-control" size="16" type="text" value="" ng-model="Commissionslip.CreatedOn" name="createddate" id="createddate" ng-change="createddatechange()" readonly>
+                                <span class="input-group-addon"><span class="fa fa-calendar"> </span> </span>
+                                <span ng-show="sraddcommissionform.$dirty && sraddcommissionform.createddate.$error.required" class="text-danger field-validation-error">This is a required field</span>
+                            </div>
+                            <input type="hidden" id="dtp_createddate" value="" />
+                        </div>
+                    </div>
+                    <div class="col-md-2 required">
+                        <label class="col-md-12 control-label">Pay Period</label>
+                        <div class="col-md-12">
+                            <!--<div class="input-group date form_date_month" data-date="">-->
+                                <div  data-date="">
+                                    <input type="text" class="form-control" ng-model="Commissionslip.AccountPeriod" name="accountperiod" id="accountperiod" disabled />
+                                    <!--<span class="input-group-addon"> <span class="fa fa-calendar"> </span> </span>-->
+                                    <span ng-show="sraddcommissionform.$dirty && sraddcommissionform.accountperiod.$error.required" class="text-danger field-validation-error">This is a required field</span>
+                                </div>
+                            <input type="hidden" id="dtp_accountperiod" value="" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--form-wrapper-->
+            <div class="clearfix"></div>
+            <h2>Sales Details</h2>
+            <div class="form-wrapper">
+                <!--form-wrapper-->
+                <div class="form-group row">
+                    <div class="col-md-12 row">
+                        <div class="clearfix"></div>
+                        <div class="col-md-3 required">
+                            <label class="col-sm-12 control-label">Dollar Volume</label>
+                            <div class="col-sm-12">
+                                <div class="input-group">
+                                    <span class="input-group-addon">$</span>
+                                    <input type="text" min="0" step="0.01" data-number-to-fixed="2" data-number-stepfactor="100" class="form-control" ng-model="Commissionslip.DollarVolume" name="DollarVolume" id="DollarVolume" aria-label="Amount (to the nearest dollar)" ng-pattern="/^[0-9]+(\.[0-9]{1,3})?$/" maxlength="20" required>
+                                </div>
+                                <div>
+                                    <span ng-show="sraddcommissionform.$dirty && sraddcommissionform.DollarVolume.$error.required" class="text-danger field-validation-error">This is a required field</span>
+                                    <span ng-show="sraddcommissionform.$dirty && !sraddcommissionform.DollarVolume.$error.required && sraddcommissionform.DollarVolume.$invalid && sraddcommissionform.DollarVolume.$error.pattern" class="text-danger field-validation-error">This field is invalid </span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3 required">
+                            <label class="col-sm-12 control-label">Amount of Sale</label>
+                            <div class="col-sm-12">
+                                <div class="input-group">
+                                    <span class="input-group-addon">$</span>
+                                    <input type="text" min="0" step="0.01" data-number-to-fixed="2" data-number-stepfactor="100" class="form-control" ng-model="Commissionslip.AmountofSale" name="AmountofSale" id="AmountofSale" aria-label="Amount (to the nearest dollar)" ng-pattern="/^[0-9]+(\.[0-9]{1,3})?$/" maxlength="20" required>
+                                </div>
+                                <div>
+                                    <span ng-show="sraddcommissionform.$dirty && sraddcommissionform.AmountofSale.$error.required" class="text-danger field-validation-error">This is a required field</span>
+                                    <span ng-show="sraddcommissionform.AmountofSale.$error.pattern" class="text-danger field-validation-error">This field is invalid </span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <label class="col-sm-12 control-label">Cost of Goods</label>
+                            <div class="col-sm-12">
+                                <div class="input-group">
+                                    <span class="input-group-addon">$</span>
+                                    <input type="text" min="0" step="0.01" data-number-to-fixed="2" data-number-stepfactor="100" class="form-control" ng-model="Commissionslip.CostofGoods" name="CostofGoods" id="CostofGoods" aria-label="Amount (to the nearest dollar)" maxlength="20" ng-pattern="/^[0-9]+(\.[0-9]{1,3})?$/">
+                                </div>
+                                <div>
+                                    <span ng-show="sraddcommissionform.$dirty && !sraddcommissionform.CostofGoods.$error.required && sraddcommissionform.CostofGoods.$invalid && sraddcommissionform.CostofGoods.$error.pattern" class="text-danger field-validation-error">This field is invalid </span>
+                                    <!--<span ng-show="sraddcommissionform.CostofGoods.$error.pattern" class="text-danger field-validation-error">This field is invalid </span>-->
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <label class="col-sm-12 control-label">Trade In</label>
+                            <div class="col-sm-12">
+                                <div class="input-group">
+                                    <span class="input-group-addon">$</span>
+                                    <input type="text" min="0" class="form-control" ng-model="Commissionslip.TradeIn" name="Tradein" id="Tradein" aria-label="Amount (to the nearest dollar)" ng-pattern="/^[0-9]+(\.[0-9]{1,3})?$/" maxlength="20">
+                                </div>
+                                <div>
+                                    <span ng-show="sraddcommissionform.$dirty && !sraddcommissionform.Tradein.$error.required && sraddcommissionform.Tradein.$invalid && sraddcommissionform.Tradein.$error.pattern" class="text-danger field-validation-error">This field is invalid </span>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <hr>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="col-sm-4 control-label">Customer Type</label>
+                        <div class="col-sm-8">
+                            <label class="radio-inline">
+                                <input type="radio" name="customer-type" id="New" value="1" ng-model="Commissionslip.CustomerType" checked>
+                                New
+                            </label>
+                            <label class="radio-inline">
+                                <input type="radio" name="customer-type" id="Existing" value="2" ng-model="Commissionslip.CustomerType">
+                                Existing
+                            </label>
+                        </div>
+                    </div>
+                    <div class="clearfix"></div>
+                    <div class="col-md-12 row">
+                        <div class="col-md-6 required">
+                            <label class="col-sm-4 control-label">Customer Name</label>
+                            <div class="col-sm-8">
+                                <input type="text" class="form-control" ng-model="Commissionslip.CustomerName" name="CustomerName" id="CustomerName" ng-pattern="/^[a-zA-Z.,' ]*$/" maxlength="30" required>
+                                <span ng-show="sraddcommissionform.$dirty && sraddcommissionform.CustomerName.$error.required" class="text-danger field-validation-error">This is a required field</span>
+                                <span ng-show="sraddcommissionform.CustomerName.$error.pattern" class="text-danger field-validation-error">This field is invalid </span>
+                            </div>
+                        </div>
+                        <div class="col-md-6 required">
+                            <label class="col-sm-4 control-label">Product Line </label>
+                            <div class="col-sm-8">
+                                <select ng-model="Commissionslip.ProductLine" name="prodline" id="prodline" class="form-control" required>
+                                    <option value="">SELECT</option>
+                                    <option ng-repeat="Product in Productline" value="{{Product.value}}">{{Product.name}}</option>
+                                </select>
+                                <span ng-show="sraddcommissionform.$dirty && sraddcommissionform.prodline.$error.required" class="text-danger field-validation-error">This is a required field</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="clearfix"></div>
+                    <div class="col-md-12 row">
+                        <div class="col-md-6">
+                            <label class="col-sm-4 control-label">Customer Ph.No</label>
+                            <div class="col-sm-8">
+                                <input type="text" class="form-control" ng-model="Commissionslip.CustomerNumber" name="CustomerNumber" id="CustomerNumber" ng-pattern="/^[\d\-]+$/" maxlength="12">
+                                <span ng-show="sraddcommissionform.CustomerNumber.$error.pattern" class="text-danger field-validation-error">This field is invalid </span>
+                            </div>
+                        </div>
+                        <div class="col-md-6 required">
+                            <label class="col-sm-4 control-label">Sale Type </label>
+                            <div class="col-sm-8" ng-if="Commissionslip.CustomerType==1">
+                                <select ng-model="Commissionslip.SaleType" name="SaleType" id="SaleType" class="form-control" required>
+                                    <option value="">SELECT</option>
+                                        <option ng-repeat="Type in SaleTypeList  | filter:{ IsNewCustomer: true } | filter:{ IsActive: true }" value="{{Type.ID}}">{{Type.SaleTypeName}}</option>
+                                </select>
+                                <span ng-show="sraddcommissionform.$dirty && sraddcommissionform.SaleType.$error.required" class="text-danger field-validation-error">This is a required field</span>
+                            </div>
+                            <div class="col-sm-8" ng-if="Commissionslip.CustomerType==2">
+                                <select ng-model="Commissionslip.SaleType" name="SaleType" id="SaleType" class="form-control" required>
+                                    <option value="">SELECT</option>
+                                    <option ng-repeat="Type in SaleTypeList  | filter:{ IsExistingCustomer: true } | filter:{ IsActive: true }" value="{{Type.ID}}">{{Type.SaleTypeName}}</option>
+                                </select>
+                                <span ng-show="sraddcommissionform.$dirty && sraddcommissionform.SaleType.$error.required" class="text-danger field-validation-error">This is a required field</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="clearfix"></div>
+                    <div class="col-md-12 row">
+                        <div class="col-md-6">
+                            <div class="col-md-12">
+                                <div class="row required">
+                                    <label class="col-sm-4 control-label">Branch</label>
+                                    <div class="col-sm-8">
+                                        <select ng-model="Commissionslip.BranchID" class="form-control" name="branch" id="branch" required>
+                                            <option ng-repeat="Branch in EmployeeBranch" value="{{Branch.BranchID}}">{{Branch.BranchName}}</option>
+                                        </select>
+                                        <span ng-show="sraddcommissionform.$dirty && sraddcommissionform.branch.$error.required" class="text-danger field-validation-error">This is a required field</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-12 required">
+                                <div class="row">
+                                    <label class="col-sm-4 control-label">Invoice Number</label>
+                                    <div class="col-sm-8">
+                                        <input type="text" class="form-control" ng-model="Commissionslip.InvoiceNumber" name="InvoiceNumber" id="InvoiceNumber" maxlength="20" ng-pattern="/^[a-zA-Z0-9.,' ]*$/" required>
+                                        <span ng-show="sraddcommissionform.$dirty && sraddcommissionform.InvoiceNumber.$error.required" class="text-danger field-validation-error">This is a required field</span>
+                                        <span ng-show="sraddcommissionform.InvoiceNumber.$error.pattern" class="text-danger field-validation-error">This field is invalid </span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-12"></div>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="col-sm-4 control-label">Sold Item</label>
+                            <div class="col-sm-8">
+                                <textarea class="form-control" rows="5" ng-model="Commissionslip.CommentSold" name="CommentSold" id="CommentSold" maxlength="140" ng-pattern="/^[a-zA-Z0-9.,' ]*$/" ></textarea>
+                                <span ng-show="sraddcommissionform.CommentSold.$error.pattern" class="text-danger field-validation-error">This field is invalid </span>
+                             </div>
+                        </div>
+                        <!--<div class="col-md-6">
+                            <label class="col-sm-4 control-label">Trade In</label>
+                            <div class="col-sm-8">
+                                <div class="input-group">
+                                    <span class="input-group-addon">$</span>
+                                    <input type="text" min="0" class="form-control" ng-model="Commissionslip.TradeIn" name="Tradein" id="Tradein" aria-label="Amount (to the nearest dollar)" ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/" maxlength="20">
+                                </div>
+                                <div>
+                                    <span ng-show="sraddcommissionform.$dirty && !sraddcommissionform.Tradein.$error.required && sraddcommissionform.Tradein.$invalid && sraddcommissionform.Tradein.$error.pattern" class="text-danger field-validation-error">This field is invalid </span>
+                                </div>
+
+                            </div>
+                        </div>-->
+                    </div>
+                    <div class="clearfix"></div>
+                    <div>
+                        <hr>
+                    </div>
+                    <div class="split-sale col-md-12 row">
+                        <div class="col-md-6" style="margin-bottom: 0px;">
+                            <div class="col-md-12">
+                                <h2>Spilt Sale</h2>
+                            </div>
+                        </div>
+                        <div class="clearfix"></div>
+                        <div class="col-md-6">
+                            <label class="col-sm-4 control-label">Salesperson Name</label>
+                            <div class="col-sm-8 input-group">
+                                <input type="text" ng-model="Commissionslip.SplitSalePerson" uib-typeahead="person as person.LastName+','+person.FirstName for person in SRSalespersons | filter:{LastName:$viewValue} | limitTo:8" typeahead-on-select='onSelect($item, $model, $label)' uib-typeahead-wait-ms=100 class="form-control" name="SplitSalePerson" id="SplitSalePerson" ng-change="splitchange()" autocomplete="off">
+                                <span class="input-group-addon"><i class="fa fa-lg fa-search"></i></span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="col-sm-4 control-label">Employee ID</label>
+                            <div class="col-sm-8">
+                                <input type="text" class="form-control" id="employee-id" placeholder="" value="" ng-model="Commissionslip.SplitSalePersonID" disabled>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="clearfix"></div>
+                    <div>
+                        <hr>
+                    </div>
+                    <div class="tip-lead col-md-12 row">
+                        <div class="col-md-6" style="margin-bottom: 0px;">
+                            <div class="col-md-12">
+                                <h2>Tip Lead</h2>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="clearfix"></div>
+                    <!--<div class="col-md-12 scrollPayplandetails">-->
+                        <div class="tip-lead col-md-12 row" ng-repeat="Row in TipLeadRow">
+                            <div class="col-md-3">
+                                <label class="col-sm-12 control-label">Tip Lead Name</label>
+                                <div class="col-sm-12  input-group">
+                                    <input type="text" ng-model="Row.TipLeadName" uib-typeahead="person as person.LastName+','+person.FirstName for person in TipLeadlist | filter:{LastName:$viewValue} | limitTo:8" typeahead-on-select='onTipleadSelect($item, $model, $label,$index)' uib-typeahead-wait-ms=100 class="form-control" name="Tipleadname{{$index}}" id="Tipleadname{{$index}}" ng-change="Tipleadchange({{$index}})" autocomplete="off">
+                                    <span class="input-group-addon"><i class="fa fa-lg fa-search"></i></span>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <label class="col-sm-12 control-label">Employee ID</label>
+                                <div class="col-sm-12">
+                                    <input type="text" class="form-control" id="TipleadEmpID{{$index}}" name="TipleadEmpID{{$index}}" placeholder="" ng-model="Row.TipLeadEmpID" disabled>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <label class="col-sm-12 control-label">Amount</label>
+                                <div class="col-sm-12">
+                                    <div class="input-group">
+                                        <span class="input-group-addon">$</span>
+                                        <input type="text" min="0" step="0.01" data-number-to-fixed="2" data-number-stepfactor="100" class="form-control" ng-model="Row.TipLeadAmount" ng-change="TotalCommissions()" name="TipLeadAmount{{$index}}" id="TipLeadAmount{{$index}}" aria-label="Amount (to the nearest dollar)" ng-pattern="/^[0-9]+(\.[0-9]{1,3})?$/" maxlength="20">
+                                    </div>
+                                    <div>
+                                        <span ng-show="sraddcommissionform.TipLeadAmount{{$index}}.$error.pattern" class="text-danger field-validation-error">This field is invalid </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <label class="col-sm-12 control-label">Adj.Positive</label>
+                                <div class="col-sm-12">
+                                    <div class="input-group">
+                                        <span class="input-group-addon">$</span>
+                                        <input type="text" min="0" step="0.01" data-number-to-fixed="2" data-number-stepfactor="100" class="form-control" ng-model="Row.PositiveAdjustments" ng-change="TotalCommissions()" name="PositiveAdj{{$index}}" id="PositiveAdj{{$index}}" aria-label="Amount (to the nearest dollar)" ng-pattern="/^[0-9]+(\.[0-9]{1,3})?$/" maxlength="20" readonly />
+                                    </div>
+                                    <div>
+                                        <span ng-show="sraddcommissionform.PositiveAdj{{$index}}.$error.pattern" class="text-danger field-validation-error">This field is invalid </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <label class="col-sm-12 control-label">Adj.Negative</label>
+                                <div class="col-sm-12">
+                                    <div class="input-group">
+                                        <span class="input-group-addon">$</span>
+                                        <input type="text" min="0" step="0.01" data-number-to-fixed="2" data-number-stepfactor="100" class="form-control" ng-model="Row.NegativeAdjustments" ng-change="TotalCommissions()" name="NegativeAdj{{$index}}" id="NegativeAdj{{$index}}" aria-label="Amount (to the nearest dollar)" ng-pattern="/^[0-9]+(\.[0-9]{1,3})?$/" maxlength="20">
+                                    </div>
+                                    <div>
+                                        <span ng-show="sraddcommissionform.NegativeAdj{{$index}}.$error.pattern" class="text-danger field-validation-error">This field is invalid </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-1">
+                                <label class="col-sm-12 control-label"></label>
+                                <div class="col-sm-12">
+                                    <ul class="add-remove-icons no-padding">
+                                        <li ng-if="$last"><a href="javascript:void(0);" ng-click="AddTipLeadRow()"><i class="fa fa-lg fa-plus active"></i></a></li>
+                                        <li ng-if="TipLeadRow.length!=1"><a href="javascript:void(0);" ng-click="RemoveTipLeadRow($index)"><i class="fa fa-lg fa-remove disabled"></i></a></li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                        </div>
+                    <!--</div>-->
+                </div>
+
+            </div>
+            <!--form-wrapper-->
+            <div class="clearfix"></div>
+            <h2>Commissions</h2>
+            <div class="form-wrapper">
+                <!--form-wrapper-->
+                <div class="form-group row">
+                    <div class="tip-lead col-md-12 row">
+                        <div class="clearfix"></div>
+                        <div class="col-md-4">
+                            <label class="col-sm-12 control-label">Base Commission</label>
+                            <div class="col-sm-12">
+                                <div class="input-group">
+                                    <span class="input-group-addon">$</span>
+                                    <input type="text" min="0" step="0.01" data-number-to-fixed="2" data-number-stepfactor="100" class="form-control" ng-model="Commissionslip.BaseCommission" ng-change="TotalCommissions()" name="BaseCommission" id="BaseCommission" aria-label="Amount (to the nearest dollar)" ng-pattern="/^[+-]?[0-9]{1,9}(?:\.[0-9]{1,3})?$/" maxlength="20">
+                                </div>
+                                <div>
+                                    <span ng-show="sraddcommissionform.$dirty && !sraddcommissionform.BaseCommission.$error.required && sraddcommissionform.BaseCommission.$invalid && sraddcommissionform.BaseCommission.$error.pattern" class="text-danger field-validation-error">This field is invalid </span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <label class="col-sm-12 control-label">Lease Commission</label>
+                            <div class="col-sm-12">
+                                <div class="input-group">
+                                    <span class="input-group-addon">$</span>
+                                    <input type="text" min="0" step="0.01" data-number-to-fixed="2" data-number-stepfactor="100" class="form-control" ng-model="Commissionslip.LeaseCommission" ng-change="TotalCommissions()" name="LeaseCommission" id="LeaseCommission" aria-label="Amount (to the nearest dollar)" ng-pattern="/^[+-]?[0-9]{1,9}(?:\.[0-9]{1,3})?$/" maxlength="20">
+                                </div>
+                                <div>
+                                    <span ng-show="sraddcommissionform.$dirty && !sraddcommissionform.LeaseCommission.$error.required && sraddcommissionform.LeaseCommission.$invalid && sraddcommissionform.LeaseCommission.$error.pattern" class="text-danger field-validation-error">This field is invalid </span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <label class="col-sm-12 control-label">Service Commission</label>
+                            <div class="col-sm-12">
+                                <div class="input-group">
+                                    <span class="input-group-addon">$</span>
+                                    <input type="text" min="0" step="0.01" data-number-to-fixed="2" data-number-stepfactor="100" class="form-control" ng-model="Commissionslip.ServiceCommission" ng-change="TotalCommissions()" name="ServiceCommission" id="ServiceCommission" aria-label="Amount (to the nearest dollar)" ng-pattern="/^[+-]?[0-9]{1,9}(?:\.[0-9]{1,3})?$/" maxlength="20">
+                                </div>
+                                <div>
+                                    <span ng-show="sraddcommissionform.$dirty && !sraddcommissionform.ServiceCommission.$error.required && sraddcommissionform.ServiceCommission.$invalid && sraddcommissionform.ServiceCommission.$error.pattern" class="text-danger field-validation-error">This field is invalid </span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="clearfix"></div>
+                        <div class="col-md-4">
+                            <label class="col-sm-12 control-label">Travel Commission</label>
+                            <div class="col-sm-12">
+                                <div class="input-group">
+                                    <span class="input-group-addon">$</span>
+                                    <input type="text" min="0" step="0.01" data-number-to-fixed="2" data-number-stepfactor="100" class="form-control" ng-model="Commissionslip.TravelCommission" ng-change="TotalCommissions()" name="TravelCommission" id="TravelCommission" aria-label="Amount (to the nearest dollar)" ng-pattern="/^[+-]?[0-9]{1,9}(?:\.[0-9]{1,3})?$/" maxlength="20">
+                                </div>
+                                <div>
+                                    <span ng-show="sraddcommissionform.$dirty && !sraddcommissionform.TravelCommission.$error.required && sraddcommissionform.TravelCommission.$invalid && sraddcommissionform.TravelCommission.$error.pattern" class="text-danger field-validation-error">This field is invalid </span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <label class="col-sm-12 control-label">Cash Commission</label>
+                            <div class="col-sm-12">
+                                <div class="input-group">
+                                    <span class="input-group-addon">$</span>
+                                    <input type="text" min="0" step="0.01" data-number-to-fixed="2" data-number-stepfactor="100" class="form-control" ng-model="Commissionslip.CashCommission" ng-change="TotalCommissions()" name="CashCommission" id="CashCommission" aria-label="Amount (to the nearest dollar)" ng-pattern="/^[+-]?[0-9]{1,9}(?:\.[0-9]{1,3})?$/" maxlength="20">
+                                </div>
+                                <div>
+                                    <span ng-show="sraddcommissionform.$dirty && !sraddcommissionform.CashCommission.$error.required && sraddcommissionform.CashCommission.$invalid&& sraddcommissionform.CashCommission.$error.pattern" class="text-danger field-validation-error">This field is invalid </span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <label class="col-sm-12 control-label">Special Commission</label>
+                            <div class="col-sm-12">
+                                <div class="input-group">
+                                    <span class="input-group-addon">$</span>
+                                    <input type="text" min="0" step="0.01" data-number-to-fixed="2" data-number-stepfactor="100" class="form-control" ng-model="Commissionslip.SpecialCommission" ng-change="TotalCommissions()" name="SpecialCommission" id="SpecialCommission" aria-label="Amount (to the nearest dollar)" ng-pattern="/^[+-]?[0-9]{1,9}(?:\.[0-9]{1,3})?$/" maxlength="20">
+                                </div>
+                                <div>
+                                    <span ng-show="sraddcommissionform.$dirty && !sraddcommissionform.SpecialCommission.$error.required && sraddcommissionform.SpecialCommission.$invalid && sraddcommissionform.SpecialCommission.$error.pattern" class="text-danger field-validation-error">This field is invalid </span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="clearfix"></div>
+                        <div class="col-md-offset-8 col-md-4">
+                            <label class="col-sm-12 control-label green">Total Commission Earned</label>
+                            <div class="col-sm-12">
+                                <div class="input-group">
+                                    <span class="input-group-addon">$</span>
+                                    <input type="text" min="0" step="0.01" data-number-to-fixed="2" data-number-stepfactor="100" class="form-control" ng-model="Commissionslip.TotalCEarned" name="TotalCEarned" id="TotalCEarned" aria-label="Amount (to the nearest dollar)" required disabled>
+                                </div>
+                                <div>
+                                    <!--<span ng-show="sraddcommissionform.$dirty && !sraddcommissionform.TotalCEarned.$error.required && sraddcommissionform.TotalCEarned.$invalid" class="text-danger field-validation-error">This field is invalid </span>-->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <!--form-wrapper-->
+        </form>
+        <div class="clearfix"></div>
+        <div class="col-md-6 col-md-offset-6">
+            <div class="row">
+                <ul class="pull-right btns">
+                    <li ng-if="LoggedinEmployee.RoleID==RolesType.SalesRep"><input type="submit" value="Save as draft" class="btn" ng-disabled="sraddcommissionform.$invalid" ng-click="AddCommission(1)"></li>
+                    <li ng-if="LoggedinEmployee.RoleID==RolesType.SalesRep"><input type="submit" value="Submit" class="btn" ng-disabled="sraddcommissionform.$invalid" ng-click="AddCommission(2)"></li>
+                    <li ng-if="LoggedinEmployee.RoleID==RolesType.PayRoll"><input type="submit" value="Add and Accept" class="btn" ng-disabled="sraddcommissionform.$invalid" ng-click="AddCommission(7)"></li>
+                    <li><a class="btn" href="javascript:void(0)" ng-click="GoToCommissionslipDetails()">Cancel</a></li>
+                    <!--<li><a class="btn" href="javascript:void(0)" ng-click="AddCommission(1)">Save as draft</a></li>
+                    <li><a class="btn" href="javascript:void(0)" ng-click="SendMail()">submit</a></li>-->
+                </ul>
+            </div>
+        </div>
+        <!--</form>-->
+    </div>
+    <!--container-->
+</div>
+<!--content-wrapper-->
+<script>
+    $('.form_date').datetimepicker({
+        language: 'en',
+        weekStart: 1,
+        todayBtn: 0,
+        autoclose: 1,
+        todayHighlight: 1,
+        startView: 2,
+        minView: 2,
+        forceParse: 0,
+        endDate: new Date()
+    });
+    $('.form_date_month').datetimepicker({
+        language: 'en',
+        weekStart: 1,
+        todayBtn: 0,
+        autoclose: 1,
+        todayHighlight: 1,
+        startView: 3,
+        minView: 3,
+        forceParse: 0,
+        format: 'mm/yyyy',
+        endDate: '+12m'
+    });
+    $("input[name='CustomerNumber']").keyup(function () {
+        $(this).val($(this).val().replace(/^(\d{3})(\d{3})(\d)+$/, "$1-$2-$3"));
+    });
+</script>

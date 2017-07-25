@@ -1,0 +1,107 @@
+<div id="content-wrapper">
+    <div class="container">
+        <h1 class="pull-left">Sale Type Details</h1>
+        <div>
+            <ul class="btns pull-right">
+                <li><a class="btn" href="javascript:void(0);" ng-disabled="AddEditSaleTypeForm.$invalid" ng-click="AddEditSaleTypeForm.$invalid ? '' : AddSaleTypeRow()"><i class="fa fa-1x fa-plus"></i>Add New Sale Type </a></li>
+            </ul>
+        </div>
+        <div class="clearfix"></div>
+        <div class="table-responsive form-wrapper addsaletype">
+            <form ng-submit="salescom.submit()" name="AddEditSaleTypeForm">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>
+                                Sale Type Name
+
+                            </th>
+                            <th>
+                                New Customer
+                            </th>
+
+                            <th>
+                                Existing Customer
+                            </th>
+                            <th>
+                                Bimonthly Bonus
+                            </th>
+                            <th>
+                                Tenure Bonus
+                            </th>
+                            <th>Status</th>
+                            <th id="search-wrapper"><div class="search-icon fa fa-search fa-lg"></div><input class="search" type="search" placeholder="Search" ng-model="search" /></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-if="SaleTypeList.length==0">
+                            <td colspan="10" class="text-center text-danger">  No Saletype available.</td>
+                        </tr>
+                        <tr ng-repeat="Row in SaleTypeList" ng-class="{'bg-danger':Row.IsActive==0}">
+                            <td>
+                                <div class="form-group no-btm-margin">
+                                    <input type="text" class="form-control" ng-model="Row.SaleTypeName"  name="SaleTypeName_{{$index}}" id="SaleTypeName_{{$index}}" ng-pattern="/^[a-zA-Z0-9,.' ]*$/" ng-blur="ValidateSaletype(Row.SaleTypeName,$index)"  maxlength="30" required>
+                                    <span ng-show="AddEditSaleTypeForm.$dirty && AddEditSaleTypeForm['SaleTypeName_'+$index].$error.required" class="text-danger field-validation-error">This is a required field</span>
+                                    <span ng-show="AddEditSaleTypeForm['SaleTypeName_'+$index].$error.pattern" class="text-danger field-validation-error">This field is invalid </span>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="form-group no-btm-margin">
+                                    <input type="checkbox" class="form-control" ng-model="Row.IsNewCustomer" ng-change="IsNewCustomerClick(Row,$index)" name="NewCustomer" id="NewCustomer" />
+                                </div>
+                            </td>
+                            <td>
+                                <div class="form-group no-btm-margin">
+                                    <input type="checkbox" class="form-control" ng-model="Row.IsExistingCustomer" ng-change="IsExistingCustomerClick(Row,$index)" ng-true-value=true ng-false-value=false name="ExistingCustomer" id="ExistingCustomer" />
+                                </div>
+                            </td>
+                            <td>
+                                <div class="form-group no-btm-margin">
+                                    <input type="checkbox" class="form-control" ng-model="Row.IsBiMonthlyBonus" ng-true-value=true ng-false-value=false name="BiMonthlyBonus" id="BiMonthlyBonus" />
+                                </div>
+                            </td>
+                            <td>
+                                <div class="form-group no-btm-margin">
+                                    <input type="checkbox" class="form-control" ng-model="Row.IsTenureBonus" ng-true-value=true ng-false-value=false name="TenureBonus" id="TenureBonus" />
+                                </div>
+                            </td>
+                            <td ng-if="Row.IsActive==0">
+                                <ul class="no-padding action-icons">
+                                    <li>
+                                        <a href="javascript:void(0);" class="deactive" ng-click="Row.IsActive=1" ng-class="{'active' : toggle}" data-toggle="tooltip" title="DeActive"><i class="fa fa-lg fa-circle"></i></a>
+                                    </li>
+                                </ul>
+                            </td>
+                            <td ng-if="Row.IsActive==1">
+                                <ul class="no-padding action-icons">
+                                    <li>
+                                        <a href="javascript:void(0);" id="saletype{{Row.ID}}" class="active" ng-click="ModalDeactivatedSaletype(Row.ID, $index)" ng-class="{{active}}" data-toggle="tooltip" title="Active"><i class="fa fa-lg fa-circle"></i></a>
+                                    </li>
+                                </ul>
+                            </td>
+                            <td></td>
+                        </tr>
+
+                    </tbody>
+                </table>
+                </form>
+                <div class="clearfix"></div>
+</div>
+        <div class="clearfix"></div>
+
+        <div class="col-md-6 col-md-offset-6">
+            <div class="row">
+                <ul class="pull-right btns">
+                    <!--<li><a class="btn" ng-click="AddPlan()" href="javascript:void(0);" >Save</a></li>-->
+                    <li><input type="button" value="Save" class="btn" ng-disabled="AddEditSaleTypeForm.$invalid"  ng-click="SetSaleType()"></li>
+                    <li><a class="btn" href="javascript:void(0)"  ng-click="GoToSaleTypeDetails()" >Cancel</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    $('.search-icon').click(function () {
+        $('.search').val('').toggle();
+});
+</script>

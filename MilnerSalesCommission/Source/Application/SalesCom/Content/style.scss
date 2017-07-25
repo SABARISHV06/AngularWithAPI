@@ -1,0 +1,513 @@
+body { font-size: 15px; font-family: 'Open Sans', sans-serif; }
+h1 { font-size: 30px; }
+
+@media only screen and (min-device-width: 768px) {
+html { font-size: 75%; } /*body=12px and h1=30px*/
+}
+
+@media only screen and (max-device-width: 480px) {
+html { font-size: 62.5%; } /*body=10px and h1=25px*/
+}
+
+$body-bg:#f3f6f8;
+$primary-color:#b8252b;
+$sub-primary-color:#d6282e;
+$muted-bg:#eaeef0;
+$body-font-color:#666666;
+$heading-font-color:#3f3f3f;
+$heading-font-size:1.315em;
+$global-font-size: 1em;
+$neutral-clr:#ffffff;
+$active-bg:#9b0d21;
+$regular:400;
+$semi-bold:600;
+$bold:700;
+$btn-font-size:0.875em;
+$btn-border-radius:0.25em;
+$btn-dark:#3f3f3f;
+$tr-border-top:#eaeef0;
+$active-green:#4bb20f;
+$in-active-red:$primary-color;
+$rejected:$primary-color;
+$processed:$active-green;
+$waiting:#ff6700;
+$draft:$heading-font-size;
+$disabled:#b2b2b2;
+
+
+body{
+  background:$body-bg;
+}
+header
+{
+  height: 6.25em;
+  background-color: $neutral-clr;
+    border-bottom: 2px solid $sub-primary-color;
+}
+
+.top-space
+{
+  margin-top: 25px;
+}
+
+.active
+{
+  color: $active-green;
+}
+.deactive
+{
+  color: $primary-color;
+}
+
+.no-padding
+{
+  padding: 0px;
+}
+
+
+  hr {
+  margin-top: 20px;
+  margin-bottom: 20px;
+  border: 0;
+  border-top: 1px solid #dddddd;
+  border-bottom: 1px solid #f4f4f4;
+}
+
+a{
+  color: $neutral-clr;
+  text-transform: uppercase;
+}
+
+h1, h2
+{
+  font-weight: $bold;
+  text-transform: uppercase;
+  }
+
+  h1
+  {
+    font-size:1.31em;
+  }
+
+  h2
+  {
+    font-size:1.0em;
+  }
+
+ul, li
+{
+  list-style: none;
+  margin: 0px;
+}
+
+.form-control
+{
+  height: 42px;
+}
+
+.btn{
+  color:$neutral-clr;
+font-size:$btn-font-size;
+border-radius:$btn-border-radius;
+-webkit-border-radius: $btn-border-radius;
+padding: 10px 15px;
+font-weight:$bold;
+}
+
+.btn i {
+  margin-right: 10px;
+}
+
+.btn-dark
+{
+  background-color: $btn-dark;
+  }
+
+.btn-primary
+{
+  background-color: $primary-color;
+}
+
+.navbar > .container .navbar-brand, .navbar > .container-fluid .navbar-brand
+{
+  margin-top:1.625em;
+  padding: 0 0 015px;
+}
+
+#navbar
+{
+  background-color:$sub-primary-color;
+}
+
+.navbar-nav > li
+{
+  padding:0.325em 0;
+}
+
+.navbar-nav > li > a
+{
+    font-weight:$semi-bold;
+}
+
+.nav > li > a:hover, .nav > li > a:focus
+{
+  background-color: $active-bg;
+  color: $neutral-clr;
+}
+
+.navbar-toggle
+{
+  background-color: $primary-color;
+  margin-top: 2em;
+}
+
+.navbar-toggle .icon-bar
+{
+  background-color: $neutral-clr;
+}
+
+.navbar-collapse
+{
+  position: absolute;
+  width: 100%;
+}
+
+ul.top-menu
+{
+  margin-top:2.1875em;
+}
+
+ul.top-menu > li > .logout
+{
+  color:$neutral-clr;
+font-size:$btn-font-size;
+border-radius:$btn-border-radius;
+-webkit-border-radius: $btn-border-radius;
+padding: 10px 15px;
+background:$primary-color;
+font-weight:$bold;
+
+}
+
+li.welcome-msg
+{
+  padding:8px 10px 0px 0px;
+  font-weight: $semi-bold;
+  span
+  {
+    text-transform: uppercase;
+    color: $sub-primary-color;
+    font-weight: $bold;
+    font-size: $btn-font-size;
+  }
+}
+
+table tr td
+{
+  color: $body-font-color;
+}
+
+table thead
+{
+  background-color: $muted-bg;
+  height: 3.43em;
+  text-transform: uppercase;
+  font-weight: $semi-bold;
+}
+
+.table > thead > tr > th, .table > tbody > tr > th, .table > tfoot > tr > th, .table > thead > tr > td, .table > tbody > tr > td, .table > tfoot > tr > td
+{
+  padding: 1em;
+  vertical-align: middle;
+  border-top: 1px solid $tr-border-top;
+}
+
+.table-striped > tbody > tr:nth-of-type(2n+1)
+{
+  background-color: $neutral-clr;
+}
+
+#content-wrapper
+{
+  margin-top: 5em;
+}
+
+.btn:focus,
+.btn:active:focus,
+.btn.active:focus,
+.btn.focus,
+.btn:active.focus,
+.btn.active.focus {
+  outline: 5px auto -webkit-focus-ring-color;
+  outline-offset: -2px;
+}
+.btn:hover,
+.btn:focus,
+.btn.focus {
+  color:#fff;
+  text-decoration: none;
+/*  -webkit-transition-property:color, text;
+-webkit-transition-duration: 0.2s, 0.2s;
+-webkit-transition-timing-function: linear, ease-in;
+
+-moz-transition-property:color, text;
+-moz-transition-duration:0.2s;
+-moz-transition-timing-function: linear, ease-in;
+
+-o-transition-property:color, text;
+-o-transition-duration:0.2s;
+-o-transition-timing-function: linear, ease-in;*/
+}
+.btn:active,
+.btn.active {
+  background-image: none;
+  outline: 0;
+  -webkit-box-shadow: inset 0 3px 5px rgba(0, 0, 0, .125);
+          box-shadow: inset 0 3px 5px rgba(0, 0, 0, .125);
+}
+
+.action-icons {
+  li
+{
+  background-color: $muted-bg;
+  border-radius:25px;
+  width: 35px;
+  height:35px;
+  display:inline-table;
+  text-align: center;
+  font-size: 0.8em;
+  font-weight: 100;
+  vertical-align: middle;
+  margin-right:5px;
+  line-height: 34px;
+}
+  a{
+    color: $btn-dark;
+  }
+    .active
+    {
+      color: $active-green;
+    }
+    .deactive
+    {
+      color: $primary-color;
+    }
+    :hover
+    {
+    color: $sub-primary-color;
+    }
+}
+
+
+/******************* SERACH *******************/
+
+
+.search-icon
+{
+	background:transparent;
+    color:$btn-dark;
+  /*  padding: 10px;
+    position: absolute;
+    right: 15px;
+        top: 9px;*/
+	display: none;
+
+}
+
+.search {
+    -webkit-transition: all .5s ease;
+    -moz-transition: all .5s ease;
+    transition: all .5s ease;
+	display: none;
+      border: 15px solid $btn-dark;
+        position: absolute;
+
+    right: 0;
+    top: 55px;
+	padding:10px;
+
+	}
+
+#search-wrapper
+{
+	position:relative;
+}
+
+/********************* COMMISSION SLIP **********************/
+
+.form-wrapper
+{
+  background-color: $muted-bg;
+  padding: 25px 35px;
+   .col-md-6,  .col-md-4, .col-md-6 .col-md-12
+   {
+       margin-bottom: 15px;
+   }
+}
+
+.form-horizontal .control-label {
+    font-weight: normal !important;
+    white-space: nowrap;
+    padding-top: 5px;
+    text-align: left;
+}
+.inputGroup {
+		position: relative;
+    display: table;
+    border-collapse: separate;
+}
+
+.bootstrap-select
+{
+  width: 100% !important;
+ button{
+  color: $heading-font-color;
+  font-weight: $regular;
+  :hover{
+    color:$heading-font-color;
+  }
+}
+}
+
+.input-group .form-control
+{
+  text-align: right;
+}
+
+.btns
+{
+  padding: 15px 0px;
+  }
+
+.btns
+{
+  li
+{
+  display: inline-block;
+  margin-right: 5px;
+}
+li:last-child
+{
+  margin-right: 0px;
+}
+li a{
+  background-color: $btn-dark;
+}
+
+}
+
+.rejected, .waiting, .draft, .processed, .disabled
+{
+  font-weight: $semi-bold;
+}
+
+.rejected
+{
+  color: $rejected;
+}
+
+.waiting
+{
+  color: $waiting;
+}
+
+.draft
+{
+  color: $draft;
+}
+
+.processed
+{
+  color: $processed;
+}
+
+.disabled
+{
+  color: $disabled;
+}
+
+.form-group.no-btm-margin,
+ .form-group.no-btm-margin .col-md-6
+{
+  margin-bottom: 0px;
+}
+
+/******************** NEW CUSTOMER ****************/
+
+
+  ul.add-remove-icons
+  {
+    li
+    {
+      display: inline-block;
+      text-align: left;
+      margin-right: 5px;
+      line-height: 30px;
+    }
+  }
+
+.bi-monthly-quota-bonus,
+.quarterly-tenure-bonus
+{
+  .fields
+  {
+    margin: 10px 0px 15px  0px;
+  }
+}
+
+/********************* ADD NEW EMPLOYEE*************/
+
+a.view-plan-details
+{
+  color: $primary-color;
+  text-transform: none;
+  line-height: 40px;
+  font-weight: $semi-bold;
+  :hover
+  {
+    text-decoration: underline;
+  }
+}
+
+/***************** VIEW REPORT *****************/
+
+.view .form-control
+{
+  color: $heading-font-color !important;
+  font-weight: $bold;
+  background-color: #ebebeb;
+::place-holder
+{
+  color:$heading-font-color;
+}
+}
+
+
+/* Sticky footer styles
+-------------------------------------------------- */
+html {
+  position: relative;
+  min-height: 100%;
+}
+body {
+  /* Margin bottom by footer height */
+  margin-bottom: 60px;
+}
+.footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  /* Set the fixed height of the footer here */
+  height: 60px;
+  background-color:$muted-bg;
+  text-align: center;
+}
+
+
+/* Custom page CSS
+-------------------------------------------------- */
+/* Not required for template or sticky footer method. */
+
+.container .text-muted {
+  margin: 20px 0;
+}

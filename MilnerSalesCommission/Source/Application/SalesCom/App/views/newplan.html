@@ -1,0 +1,23 @@
+﻿<div class="right-side">
+    <p> New Plan Componanets</p>
+    <div class="block">
+        <h4>
+            Roles List
+        </h4>
+
+        <table id="tabularReport" class="table table-bordered table-hover dataTable">
+            <thead>
+                <tr>
+                    <th>roleid</th>
+                    <th>name</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="role in Roleslists | orderBy:'RoleID'">
+                    <td>{{role.RoleID}}</td>
+                    <td>{{role.Name}}</td>
+                </tr>
+            </tbody> 
+        </table>
+    </div>
+</div>

@@ -1,0 +1,74 @@
+<div id="content-wrapper">
+    <form name="ViewPayrollConfigurationForm">
+        <div class="container">
+            <h1 class="pull-left">Payroll Configuration - {{TempPayroll.Year}}</h1>
+            <div>
+                <ul class="btns pull-right">
+                    <li>
+                        <label>Created By: <span style="font-weight:normal">{{TempPayroll.CreatedByName
+}}</span></label>&nbsp;&nbsp;&nbsp;
+                        <label>Recently Modified By: <span style="font-weight:normal">{{TempPayroll.ModifiedByName}}</span></label>&nbsp;&nbsp;&nbsp;
+                    </li>
+                </ul>
+            </div>
+            <div class="clearfix"></div>
+            <div class="table-responsive form-wrapper">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>
+                                Period
+
+                            </th>
+                            <th>
+                                Name
+
+                            </th>
+                            <th>
+                                Date From
+                            </th>
+                            <th>
+                                Date To
+                            </th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                        <tr ng-repeat="row in ViewPayroll">
+                            <td>{{$index+1}}</td>
+                            <td>
+                                <div class="form-group no-btm-margin">
+                                    <input type="text" class="form-control" name="PeriodName{{$index}}" id="PeriodName{{$index}}" ng-model="row.Month" maxlength="30" readonly>
+                                  </div>
+                            </td>
+                            <td>
+                                <div class="form-group no-btm-margin"><input type="text" class="form-control" readonly name="datefrom{{$index}}" id="datefrom{{$index}}" ng-model="row.DateFrom|date:'MM/dd'" /></div>
+                            </td>
+                            <td>
+                                <div class="form-group no-btm-margin"><input type="text" class="form-control" readonly name="dateto{{$index}}" id="dateto{{$index}}" ng-model="row.DateTo|date:'MM/dd'" /></div>
+                            </td>
+
+                        </tr>
+
+                    </tbody>
+                </table>
+
+                <div class="clearfix"></div>
+            </div>
+            <div class="clearfix"></div>
+            <div class="col-md-6 col-md-offset-6">
+                <div class="row">
+                    <ul class="pull-right btns">
+                        <li><a class="btn" href="javascript:void(0)" ng-click="GoToPayrollConfigurationDetails()">Back</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+<script type="text/javascript">
+    $('.search-icon').click(function () {
+        $('.search').val('').toggle();
+    });
+</script>

@@ -1,0 +1,328 @@
+<div id="content-wrapper" class="new-commission-slip"><!--content-wrapper">-->
+    <form class="form-horizontal" role="form" name="EditPlanForm">
+        <div class="container">
+            <!--container-->
+            <div class="col-md-6">
+                <h1>Edit Pay Plan</h1>
+            </div>
+            <div class="col-md-offset-6">
+                <div class="row">
+                    <ul class="pull-right no-padding action-icons">
+                        <li><a href="javascript:void(0)" data-toggle="tooltip" title="Modifying Pay Plan parameters will affect the calculation for mapped employee from the month of the update."><i class="fa fa-lg fa-info-circle text-info"></i></a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="form-wrapper">
+                <!--form-wrapper-->
+                <div class="form-group no-btm-margin">
+                    <div class="col-md-6">
+                        <label for="saleperson-name" class="col-sm-4 control-label">Pay Plan Name</label>
+                        <div class="col-sm-8">
+                            <input type="text" class="form-control" id="PlanName" name="PlanName" placeholder="" ng-model="Plandetail.PlanName" ng-pattern="/^[a-zA-Z0-9,.' ]*$/" maxlength="30"  required>
+                            <span ng-show="EditPlanForm.$dirty && EditPlanForm.PlanName.$error.required" class="text-danger field-validation-error">This is a required field</span>
+                            <span ng-show="EditPlanForm.PlanName.$error.pattern" class="text-danger field-validation-error">This field is invalid </span>
+                        </div>
+                    </div>
+
+                </div>
+    </div><!--form-wrapper-->
+    <div class="clearfix"></div>
+    <h2>Set Target Gross Profit</h2>
+    <div class="form-wrapper"><!--form-wrapper-->
+        <div class="form-group row">
+          <div class="col-md-6">
+            <label class="col-sm-4 control-label">Based Upon </label>
+            <div class="col-sm-8">
+              <label class="radio-inline">
+                <input type="radio" name="customer-type" id="dollar-value" ng-value="1" checked ng-model="Plandetail.BasisType">
+                Dollar Volume </label>
+              <label class="radio-inline">
+                <input type="radio" name="customer-type" id="gross-profit" ng-value="2" ng-model="Plandetail.BasisType">
+                Gross Profit </label>
+            </div>
+          </div>
+
+          <div class="clearfix"></div>
+
+          <div class="new-customer"><!--new-customer-->
+
+          <div class="col-md-6" style="margin-bottom: 0px;"><div class="col-md-12"><h2>New Customer</h2></div></div>
+              <div class="col-md-12 scrollPayplandetails">
+                  <div class="col-md-12 row" ng-repeat="Row in NewCustomerRow">
+                      <div class="col-md-6">
+                          <label class="col-sm-4 control-label">Sale Type</label>
+                          <div class="col-sm-8">
+                              <!--<select ng-model="Row.SalesType">
+                        <option value="">SELECT</option>
+                        <option ng-repeat="item in Saletype" ng-value="{{item.value}}">{{item.name}}</option>
+                    </select>-->
+                              <select ng-model="Row.SalesType" class="form-control" name="NewCustomerSalesType_{{$index}}" id="NewCustomerSalesType{{$index}}" ng-options="value.ID as value.SaleTypeName for (key, value) in SaleTypeList| filter:{ IsNewCustomer: true }| filter:{ IsActive: true }"  required></select>
+                              <span ng-show="EditPlanForm.$dirty && EditPlanForm['NewCustomerSalesType_'+$index].$error.required" class="text-danger field-validation-error">This is a required field</span>
+                          </div>
+                      </div>
+                      <div class="col-md-6">
+                          <label class="col-sm-4 control-label">Percentage</label>
+                          <div class="col-sm-6">
+                              <input type="text" min="0" max="100" class="form-control" name="NewCustomerPercentage_{{$index}}" id="NewCustomerPercentage{{$index}}" placeholder="" ng-model="Row.Percentage" ng-pattern="/^[0-9]+(\.[0-9]{1,3})?$|^100$/" required>
+                              <div>
+                                  <span ng-show="EditPlanForm.$dirty && EditPlanForm['NewCustomerPercentage_'+$index].$error.required" class="text-danger field-validation-error">This is a required field</span>
+                                  <span ng-show="EditPlanForm.$dirty && !EditPlanForm['NewCustomerPercentage_'+$index].$error.required && EditPlanForm['NewCustomerPercentage_'+$index].$invalid && EditPlanForm['NewCustomerPercentage_'+$index].$error.pattern" class="text-danger field-validation-error">This field is invalid </span>
+                              </div>
+                          </div>
+                          <div class="col-sm-2">
+                              <ul class="add-remove-icons no-padding">
+                                  <li ng-if="$last"><a href="javascript:void(0);" ng-click="AddNewCustomerRow()"><i class="fa fa-lg fa-plus active"></i></a></li>
+                                  <li ng-if="NewCustomerRow.length!=1"><a href="javascript:void(0);" ng-click="RemoveNewCustomerRow($index)"><i class="fa fa-lg fa-remove disabled"></i></a></li>
+                              </ul>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+			</div>   <!--new-customer-->
+
+        <div class="clearfix"></div>
+
+         <div class="existing-customer"><!--Existing Customer-->
+
+          <div class="col-md-6" style="margin-bottom: 0px;"><div class="col-md-12"><h2>Existing Customer</h2></div></div>
+             <div class="col-md-12 scrollPayplandetails">
+                 <div class="col-md-12 row" ng-repeat="Row in ExistingCustomerRow">
+                     <div class="col-md-6">
+                         <label class="col-sm-4 control-label">Sale Type</label>
+                         <div class="col-sm-8">
+                             <!--<select ng-model="Row.SalesType">
+                        <option value="">SELECT</option>
+                        <option data-ng-repeat="item in Saletype" value="{{item.value}}">{{item.name}}</option>
+                    </select>-->
+                             <select class="form-control" name="ExistingCustomerSalesType_{{$index}}" id="ExistingCustomerSalesType{{$index}}" ng-model="Row.SalesType"
+                                     ng-options="value.ID as value.SaleTypeName for (key, value) in SaleTypeList| filter:{ IsExistingCustomer: true }| filter:{ IsActive: true }"  required></select>
+                             <span ng-show="EditPlanForm.$dirty && EditPlanForm['ExistingCustomerSalesType_'+$index].$error.required" class="text-danger field-validation-error">This is a required field</span>
+                         </div>
+                     </div>
+                     <div class="col-md-6">
+                         <label class="col-sm-4 control-label">Percentage</label>
+                         <div class="col-sm-6">
+                             <input type="text" min="0" max="100" class="form-control" id="ExistingCustomerPercentage{{$index}}" name="ExistingCustomerPercentage_{{$index}}" placeholder="" ng-model="Row.Percentage" ng-pattern="/^[0-9]+(\.[0-9]{1,3})?$|^100$/" required>
+                             <div>
+                                 <span ng-show="EditPlanForm.$dirty && EditPlanForm['ExistingCustomerPercentage_'+$index].$error.required" class="text-danger field-validation-error">This is a required field</span>
+                                 <span ng-show="EditPlanForm.$dirty && !EditPlanForm['ExistingCustomerPercentage_'+$index].$error.required && EditPlanForm['ExistingCustomerPercentage_'+$index].$invalid && EditPlanForm['ExistingCustomerPercentage_'+$index].$error.pattern" class="text-danger field-validation-error">This field is invalid </span>
+                             </div>
+                         </div>
+                         <div class="col-sm-2">
+                             <ul class="add-remove-icons no-padding">
+                                 <li ng-if="$last"><a href="javascript:void(0);" ng-click="AddExistingCustomerRow()"><i class="fa fa-lg fa-plus active"></i></a></li>
+                                 <li ng-if="ExistingCustomerRow.length!=1"><a href="javascript:void(0);" ng-click="RemoveExistingCustomerRow($index)"><i class="fa fa-lg fa-remove disabled"></i></a></li>
+                             </ul>
+                         </div>
+                     </div>
+                 </div>
+             </div>
+			</div>   <!--Existing Customer-->
+
+
+			<div class="clearfix"></div>
+
+			  <div><hr></div>
+
+                        <div class="set-bonus-parameters col-md-12 row"> <!--Set Bonus Parameters-->
+							<div class="col-md-6" style="margin-bottom: 0px;"><div class="col-md-12"><h2>Set Bonus Parameters</h2></div></div>
+							<div class="clearfix"></div>
+            <div class="bi-monthly-quota-bonus"><!--bi-monthly-quota-bonus-->
+            <div class="col-md-8">
+            <label class="col-sm-4 control-label">Bi-Monthly Quota Bonus </label>
+            <div class="col-sm-8">
+              <label class="radio-inline">
+                <input type="radio" name="bi-monthly-quota-bonus" id="yes" ng-value="true" ng-model="Plandetail.BMQuotaBonus" ng-click="BimonthlyShow()">
+                Yes </label>
+              <label class="radio-inline">
+                <input type="radio" name="bi-monthly-quota-bonus" id="no" ng-value="false" ng-model="Plandetail.BMQuotaBonus" ng-click="BimonthlyHide()">
+                No </label>
+            </div>
+          </div>
+
+		<div class="clearfix"></div>
+                <div class="col-md-12 scrollPayplandetails">
+                    <div class="fields" ng-if="Plandetail.BMQuotaBonus==true" ng-repeat="Row in BimonthsRow">
+                        <div class="clearfix"></div>
+                        <div class="col-md-2">
+                            <label class="col-sm-12 control-label">Months</label>
+                            <div class="col-sm-12">
+                                <select ng-model="Row.Months" class="form-control" name="BiMonthlyMonths_{{$index}}" id="BiMonthlyMonths{{$index}}" required>
+                                    <option value="">SELECT</option>
+                                    <option ng-repeat="item in BimonthsOptions" value="{{item}}">{{item}}</option>
+                                </select>
+                                <span ng-show="EditPlanForm.$dirty && EditPlanForm['BiMonthlyMonths_'+$index].$error.required" class="text-danger field-validation-error">This is a required field</span>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <label class="col-sm-12 control-label">Tier</label>
+                            <div class="col-sm-12">
+                                <input type="text" class="form-control" id="BimonthlyTier{{$index}}" name="BimonthlyTier_{{$index}}" placeholder="" ng-model="Row.Tier" maxlength="30" ng-pattern="/^[a-zA-Z0-9,.' ]*$/" required>
+                                <span ng-show="EditPlanForm.$dirty && EditPlanForm['BimonthlyTier_'+$index].$error.required" class="text-danger field-validation-error">This is a required field</span>
+                                <span ng-show="EditPlanForm['BimonthlyTier_'+$index].$error.pattern" class="text-danger field-validation-error">This field is invalid </span>
+                            </div>
+                        </div>
+
+                        <div class="col-md-4">
+                            <label class="col-sm-12 control-label">Entry Point</label>
+                            <div class="col-sm-5">
+                                <input type="text" ng-pattern="/^[0-9]+$/" min="0" maxlength="20" class="form-control" id="BimonthlyEntryPointA{{$index}}" name="BimonthlyEntryPointA_{{$index}}" placeholder="" ng-model="Row.EntryPointA" ng-change="Entrycheck({{$index}})" required>
+                                <span ng-show="EditPlanForm.$dirty && EditPlanForm['BimonthlyEntryPointA_'+$index].$error.required" class="text-danger field-validation-error">This is a required field</span>
+                                <span ng-show="EditPlanForm.$dirty && !EditPlanForm['BimonthlyEntryPointA_'+$index].$error.required && EditPlanForm['BimonthlyEntryPointA_'+$index].$invalid && EditPlanForm['BimonthlyEntryPointA_'+$index].$error.pattern" class="text-danger field-validation-error">This field is invalid </span>
+                            </div>
+                            <div class="col-sm-1">
+                                _
+                            </div>
+                            <div class="col-sm-5">
+                                <input type="text" ng-pattern="/^[0-9]+$/" min="0" maxlength="20" class="form-control" id="BimonthlyEntryPointB{{$index}}" name="BimonthlyEntryPointB_{{$index}}" placeholder="" ng-model="Row.EntryPointB" ng-change="Entrycheck({{$index}})" ng-required="Requiredfield({{$index}})">
+                                <span ng-show="EditPlanForm.$dirty && (Requiredfield({{$index}}) && EditPlanForm['BimonthlyEntryPointB_'+$index].$error.required)" class="text-danger field-validation-error">This is a required field</span>
+                                <span ng-show="EditPlanForm.$dirty&& !EditPlanForm['BimonthlyEntryPointB_'+$index].$error.required && EditPlanForm['BimonthlyEntryPointB_'+$index].$invalid && EditPlanForm['BimonthlyEntryPointB_'+$index].$error.pattern" class="text-danger field-validation-error">This field is invalid </span>
+                                <!--<span ng-show="EditPlanForm.$dirty && EditPlanForm.BimonthlyEntryPointB{{$index}}.$error.required" class="text-danger field-validation-error">This is a required field</span>
+                                <span ng-show="EditPlanForm.$dirty && !EditPlanForm.BimonthlyEntryPointB{{$index}}.$error.required && EditPlanForm.BimonthlyEntryPointB{{$index}}.$invalid && EditPlanForm.BimonthlyEntryPointB{{$index}}.$error.pattern" class="text-danger field-validation-error">This field is invalid </span>-->
+                            </div>
+                            <span ng-show="EditPlanForm.$dirty&& !EditPlanForm['BimonthlyEntryPointA_'+$index].$error.required && !EditPlanForm['BimonthlyEntryPointB_'+$index].$error.required && Entrypointscheck[{{$index}}]" class="text-danger field-validation-error">EntryPoint From should be less than EntryPoint To</span>
+                        </div>
+
+                        <div class="col-md-3">
+                            <label class="col-sm-12 control-label">Percentage</label>
+                            <div class="col-sm-8">
+                                <input type="text" ng-pattern="/^[0-9]+(\.[0-9]{1,3})?$|^100$/" min="0" max="100" class="form-control" id="BimonthlyPercentage{{$index}}" name="BimonthlyPercentage_{{$index}}" placeholder="" ng-model="Row.Percentage" required>
+                                <span ng-show="EditPlanForm.$dirty && EditPlanForm['BimonthlyPercentage_'+$index].$error.required" class="text-danger field-validation-error">This is a required field</span>
+                                <span ng-show="EditPlanForm.$dirty && !EditPlanForm['BimonthlyPercentage_'+$index].$error.required && EditPlanForm['BimonthlyPercentage_'+$index].$invalid && EditPlanForm['BimonthlyPercentage_'+$index].$error.pattern" class="text-danger field-validation-error">This field is invalid </span>
+                            </div>
+                            <div class="col-sm-4">
+                                <ul class="add-remove-icons no-padding">
+                                    <li ng-if="$last"><a href="javascript:void(0);" ng-click="AddBimonthsRow($index)"><i class="fa fa-lg fa-plus active"></i></a></li>
+                                    <li ng-if="BimonthsRow.length!=1"><a href="javascript:void(0);" ng-click="RemoveBimonthsRow($index)"><i class="fa fa-lg fa-remove disabled"></i></a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+							</div><!--bi-monthly-quota-bonus-->
+
+                            <div class="clearfix"></div>
+                            <div><hr></div>
+
+                            <div class="sales-manager-eligible">
+                                <!--sales-manager-eligible-->
+                                <div class="col-md-8">
+                                    <label class="col-sm-4 control-label">Sales Manager Eligible   </label>
+                                    <div class="col-sm-8">
+                                        <label class="radio-inline">
+                                            <input type="radio" name="sales-manager-eligible" id="yes" ng-value="true" checked ng-model="Plandetail.SMEligible">
+                                            Yes
+                                        </label>
+                                        <label class="radio-inline">
+                                            <input type="radio" name="sales-manager-eligible" id="no" ng-value="false" ng-model="Plandetail.SMEligible">
+                                            No
+                                        </label>
+                                    </div>
+                                </div>
+                            </div> <!--sales-manager-eligible-->
+
+							<div class="clearfix"></div>
+								  <div><hr></div>
+							<div class="quarterly-tenure-bonus"><!--quarterly-tenure-bonus-->
+							<div class="col-md-8">
+            <label class="col-sm-4 control-label">Quarterly Tenure  Bonus  </label>
+            <div class="col-sm-8">
+              <label class="radio-inline">
+                <input type="radio" name="quarterly-tenure-bonus" id="yes" ng-value="true" checked ng-model="Plandetail.TenureBonus" ng-click="TenureShow()">
+                Yes </label>
+              <label class="radio-inline">
+                <input type="radio" name="quarterly-tenure-bonus" id="no" ng-value="false" ng-model="Plandetail.TenureBonus" ng-click="TenureHide()">
+                No </label>
+            </div>
+          </div>
+
+		<div class="clearfix"></div>
+                                <div class="col-md-12 scrollPayplandetails">
+                                    <div class="fields" ng-if="Plandetail.TenureBonus==true" ng-repeat="Row in TenureRow">
+
+                                        <div class="col-md-3">
+                                            <label class="col-sm-12 control-label">Months</label>
+                                            <div class="col-sm-12">
+                                                <select ng-model="Row.Months" class="form-control" name="QuarterlyMonths_{{$index}}" id="QuarterlyMonths{{$index}}" required>
+                                                    <option value="">SELECT</option>
+                                                    <option ng-repeat="item in TenureOptions" value="{{item}}">{{item}}</option>
+                                                </select>
+                                                <span ng-show="EditPlanForm.$dirty && EditPlanForm['QuarterlyMonths_'+$index].$error.required" class="text-danger field-validation-error">This is a required field</span>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <label class="col-sm-12 control-label">Tier</label>
+                                            <div class="col-sm-12">
+                                                <input type="text" class="form-control" id="TenureTier{{$index}}" name="TenureTier_{{$index}}" placeholder="" ng-model="Row.Tier" ng-pattern="/^[a-zA-Z0-9,.' ]*$/" required>
+                                                <span ng-show="EditPlanForm.$dirty && EditPlanForm['TenureTier_'+$index].$error.required" class="text-danger field-validation-error">This is a required field</span>
+                                                <span ng-show="EditPlanForm['TenureTier_'+$index].$error.pattern" class="text-danger field-validation-error">This field is invalid </span>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-3">
+                                            <label class="col-sm-12 control-label">Entry Point</label>
+                                            <div class="col-sm-12">
+                                                <input type="text" ng-pattern="/^[0-9]+$/" min="0" maxlength="20" class="form-control" id="TenureEntryPointA{{$index}}" name="TenureEntryPointA_{{$index}}" placeholder="" ng-model="Row.EntryPointA" required>
+                                                <span ng-show="EditPlanForm.$dirty && EditPlanForm['TenureEntryPointA_'+$index].$error.required" class="text-danger field-validation-error">This is a required field</span>
+                                                <span ng-show="EditPlanForm.$dirty && !EditPlanForm['TenureEntryPointA_'+$index].$error.required && EditPlanForm['TenureEntryPointA_'+$index].$invalid && EditPlanForm['TenureEntryPointA_'+$index].$error.pattern" class="text-danger field-validation-error">This field is invalid </span>
+                                            </div>
+                                            <!--<div class="col-sm-1">
+                _
+                     </div>
+                <div class="col-sm-5">
+                   <input type="text" ng-pattern="/^[0-9]+$/" min="0" maxlength="20" class="form-control"  ng-model="Row.EntryPointB" id="TenureEntryPointB{{$index}}" name="TenureEntryPointB{{$index}}" required>
+                    <span ng-show="EditPlanForm.$dirty && EditPlanForm.TenureEntryPointB{{$index}}.$error.required" class="text-danger field-validation-error">This is a required field</span>
+                    <span ng-show="EditPlanForm.$dirty && !EditPlanForm.TenureEntryPointB{{$index}}.$error.required && EditPlanForm.TenureEntryPointB{{$index}}.$invalid && EditPlanForm.TenureEntryPointB{{$index}}.$error.pattern" class="text-danger field-validation-error">This field is invalid </span>
+                </div>-->
+                                        </div>
+
+                                        <div class="col-md-3">
+                                            <label class="col-sm-12 control-label">Percentage</label>
+                                            <div class="col-sm-8">
+                                                <input type="text" ng-pattern="/^[0-9]+(\.[0-9]{1,3})?$|^100$/" min="0" max="100" class="form-control" id="TenurePercentage{{$index}}" name="TenurePercentage_{{$index}}" ng-model="Row.Percentage" required>
+                                                <span ng-show="EditPlanForm.$dirty && EditPlanForm['TenurePercentage_'+$index].$error.required" class="text-danger field-validation-error">This is a required field</span>
+                                                <span ng-show="EditPlanForm.$dirty && !EditPlanForm['TenurePercentage_'+$index].$error.required && EditPlanForm['TenurePercentage_'+$index].$invalid && EditPlanForm['TenurePercentage_'+$index].$error.pattern" class="text-danger field-validation-error">This field is invalid </span>
+                                            </div>
+                                            <div class="col-sm-4">
+                                                <ul class="add-remove-icons no-padding">
+                                                    <li ng-if="$last"><a href="javascript:void(0);" ng-click="AddTenureRow()"><i class="fa fa-lg fa-plus active"></i></a></li>
+                                                    <li ng-if="TenureRow.length!=1"><a href="javascript:void(0);" ng-click="RemoveTenureRow($index)"><i class="fa fa-lg fa-remove disabled"></i></a></li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+							</div><!--quarterly-tenure-bonus-->
+
+							
+
+
+		   </div> <!--Set Bonus Parameters-->
+
+       <div class="clearfix"></div>
+
+
+
+
+        </div>
+    </div><!--form-wrapper-->
+
+    <div class="clearfix"></div>
+
+
+	  <div class="clearfix"></div>
+
+    <div class="col-md-6 col-md-offset-6">
+     	<div class="row">
+      	<ul class="pull-right btns">
+              <!--<li><a class="btn" ng-click="EditPlan()" href="javascript:void(0);">Save</a></li>-->
+              <li><input type="button" value="Save" class="btn" ng-click="EditPlan()" ng-disabled="EditPlanForm.$invalid"></li>
+              <li><a class="btn" href="javascript:void(0)" ng-click="NewPayPlanCancelConfirmation()">Cancel</a></li>
+			  </ul>
+		</div>
+	  </div>
+
+
+  </div><!--container-->
+</form>
+</div><!--content-wrapper">-->

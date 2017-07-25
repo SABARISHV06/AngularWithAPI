@@ -1,0 +1,43 @@
+﻿<style type="text/css">
+    .modal-dialog {
+        width: 90% !important;
+    }
+</style>
+<div class="modal-header">
+    <h2 class="modal-title">{{title}}</h2>
+</div>
+<div class="modal-body">
+    <br />
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Payplan Name </th>
+                <th>Employee ID</th>
+                <th>Account Name</th>
+                <th>First Name</th>
+                <th>Last Name</th>
+            </tr>
+        </thead>
+
+
+        <tbody ng-repeat="emp in Employeedetail">
+            <tr>
+                <td title="{{emp.PayPlanName}}">{{emp.PayPlanName}}</td>
+                <td title="{{emp.EmployeeID}}">{{emp.EmployeeID}}</td>
+                <td title="{{emp.AccountName}}">{{emp.AccountName}}</td>
+                <td title="{{emp.FirstName}}">{{emp.FirstName}}</td>
+                <td title="{{emp.LastName}}">{{emp.LastName}}</td>
+            </tr>
+        </tbody>
+        <!--To display No Records found -->
+        <tbody ng-if="Employees.length == 0">
+            <tr>
+                <td colspan="10" class="text-center text-danger">No Records found</td>
+            </tr>
+        </tbody>
+    </table>
+    <br />
+</div>
+<div class="modal-footer">
+    <button class="btn btn-primary" ng-click="close()">Close</button>
+</div>

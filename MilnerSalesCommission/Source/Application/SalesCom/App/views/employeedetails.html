@@ -1,0 +1,94 @@
+﻿<div id="content-wrapper">
+ <div class="container">
+     <div class="row">
+         <div class="col-md-4">
+             <h1 class="pull-left">Employee Details</h1>
+         </div>
+         <div class="col-md-4">
+             <p ng-if="Employeedetail.length!=0&&LoggedinEmployee.RoleID==RolesType.PayRoll" class="pull-right payplanalerts"><a href="javascript:void(0)" ng-click="ModalDeactivatedPayPlan()" class="view-plan-details">Click to view Deactivated PayPlan Details</a></p>
+         </div>
+         <div class="col-md-4">
+             <ul class="btns pull-right">
+                 <li><a class="btn" href="javascript:void(0)" ng-click="GoToAddEmployee()"><i class="fa fa-1x fa-plus"></i>Add Employee</a></li>
+             </ul>
+         </div>
+     </div>
+
+
+	<div class="clearfix"></div>
+  
+           <div class="table-responsive">
+            <table class="table table-striped">
+              <thead>
+                <tr>
+                  <th ng-click="Sort('UID')">Employee ID <span class="glyphicon sort-icon" ng-show="SortKey=='UID'" ng-class="{'glyphicon-chevron-up':Order,'glyphicon-chevron-down':!Order}"></span></th>
+                  <th ng-click="Sort('AccountName')">Account Name <span class="glyphicon sort-icon" ng-show="SortKey=='AccountName'" ng-class="{'glyphicon-chevron-up':Order,'glyphicon-chevron-down':!Order}"></span></th>
+                  <th ng-click="Sort('RoleName')">Type <span class="glyphicon sort-icon" ng-show="SortKey=='RoleName'" ng-class="{'glyphicon-chevron-up':Order,'glyphicon-chevron-down':!Order}"></span></th>
+                  <th ng-click="Sort('FirstName')">First Name <span class="glyphicon sort-icon" ng-show="SortKey=='FirstName'" ng-class="{'glyphicon-chevron-up':Order,'glyphicon-chevron-down':!Order}"></span></th>
+                  <th ng-click="Sort('LastName')">Last Name <span class="glyphicon sort-icon" ng-show="SortKey=='LastName'" ng-class="{'glyphicon-chevron-up':Order,'glyphicon-chevron-down':!Order}"></span></th>
+                  <th ng-click="Sort('ApproveMgrName')" ng-if="LoggedinEmployee.RoleID == RolesType.PayRoll">Reporting SM <span class="glyphicon sort-icon" ng-show="SortKey=='ApproveMgrName'" ng-class="{'glyphicon-chevron-up':Order,'glyphicon-chevron-down':!Order}"></span></th>
+                  <th ng-click="Sort('ReportMgrName')" ng-if="LoggedinEmployee.RoleID == RolesType.PayRoll">Reporting GM <span class="glyphicon sort-icon" ng-show="SortKey=='ReportMgrName'" ng-class="{'glyphicon-chevron-up':Order,'glyphicon-chevron-down':!Order}"></span></th>
+				   <th>Actions</th>
+					<th id="search-wrapper"><div class="search-icon fa fa-search fa-lg"></div><input class="search" type="search" placeholder="Search"  ng-model="search" /></th>
+                </tr>
+              </thead>
+
+
+              <tbody>
+                <tr ng-if="LoggedinEmployee" dir-paginate="emp in Employees|filter:search|orderBy:SortKey:Order|itemsPerPage:pageSize" ng-class="{'bg-danger':emp.IsActive==0}">
+                  <td>{{emp.EmployeeID}}</td>
+                  <td>{{emp.AccountName}}</td>
+                  <td>{{emp.RoleName}}</td>
+                  <td>{{emp.FirstName}}</td>
+                  <td>{{emp.LastName}}</td>
+				  <td ng-if="LoggedinEmployee.RoleID==RolesType.PayRoll">{{emp.ReportMgrName}}</td><!--Display the Reporting SM colum only for payroll--> 
+				  <td ng-if="LoggedinEmployee.RoleID==RolesType.PayRoll">{{emp.ApproveMgrName}}</td><!--Display the Reporting GM colum only for payroll-->
+                  <td ng-if="emp.IsActive==0">
+                    <ul class="no-padding action-icons">
+						<li> <a href="javascript:void(0)" ng-click="GoToViewEmployee(emp)" data-toggle="tooltip" title="View"><i class="fa fa-lg fa-eye"></i></a></li>
+                        <li> <a href="javascript:void(0)"><i class="fa fa-lg fa-edit disabled"></i></a></li>
+						<li> <a href="javascript:void(0)" ng-click="ActivateDeactivateConfirmation(emp)" class="deactive"  data-toggle="tooltip" title="Deactive"><i class="fa fa-lg fa-circle"></i></a></li>
+                    </ul>
+                  </td>
+                  <td ng-if="emp.IsActive==1">
+                        <ul class="no-padding action-icons">
+                            <li> <a href="javascript:void(0)" ng-click="GoToViewEmployee(emp)" data-toggle="tooltip" title="View"><i class="fa fa-lg fa-eye"></i></a></li>
+                            <li> <a href="javascript:void(0)" ng-click="GoToEditEmployee(emp)" data-toggle="tooltip" title="Edit"><i class="fa fa-lg fa-edit"></i></a></li>
+                            <li> <a href="javascript:void(0)" ng-click="ActivateDeactivateConfirmation(emp)" class="active" data-toggle="tooltip" title="Active"><i class="fa fa-lg fa-circle"></i></a></li>
+                        </ul>
+                  </td>
+				<td></td>
+                </tr>
+              </tbody>
+                <!--To display No Records found -->
+               <tbody ng-if="Employees.length == 0">
+                   <tr>
+                       <td colspan="10" class="text-center text-danger">No Records found</td>                       
+                   </tr>
+               </tbody>
+               </table>
+               <div class="clearfix"></div>
+                       <div class="col-md-3">
+                           <select name="pageSize" id="pageSize" ng-model="pageSize">
+                               <option value="10"  ng-selected="true">10</option>
+                               <option value="25">25</option>
+                               <option value="50">50</option>
+                           </select> records per page
+                       </div>
+                       <div class="col-md-9">
+                           <dir-pagination-controls max-size="10"
+                                                    direction-links="true"
+                                                    boundary-links="true">
+                           </dir-pagination-controls>
+                       </div>
+                  
+
+	</div>
+
+	  </div>
+	  </div>
+<script type="text/javascript">
+    $('.search-icon').click(function () {
+	$('.search').toggle();
+});
+</script>

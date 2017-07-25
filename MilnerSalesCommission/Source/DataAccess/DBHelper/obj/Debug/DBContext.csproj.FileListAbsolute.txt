@@ -1,0 +1,14 @@
+E:\projects\SalesCommission\MSC\Source\DataAccess\DBHelper\bin\Debug\DBContext.dll
+E:\projects\SalesCommission\MSC\Source\DataAccess\DBHelper\bin\Debug\DBContext.pdb
+E:\projects\SalesCommission\MSC\Source\DataAccess\DBHelper\bin\Debug\GlobalConfig.dll
+E:\projects\SalesCommission\MSC\Source\DataAccess\DBHelper\bin\Debug\GlobalConfig.pdb
+E:\projects\SalesCommission\MSC\Source\DataAccess\DBHelper\obj\Debug\DBContext.csprojResolveAssemblyReference.cache
+E:\projects\SalesCommission\MSC\Source\DataAccess\DBHelper\obj\Debug\DBContext.dll
+E:\projects\SalesCommission\MSC\Source\DataAccess\DBHelper\obj\Debug\DBContext.pdb
+E:\SVN\MilnerSalesCommission\Source\DataAccess\DBHelper\bin\Debug\DBContext.dll
+E:\SVN\MilnerSalesCommission\Source\DataAccess\DBHelper\bin\Debug\DBContext.pdb
+E:\SVN\MilnerSalesCommission\Source\DataAccess\DBHelper\bin\Debug\GlobalConfig.dll
+E:\SVN\MilnerSalesCommission\Source\DataAccess\DBHelper\bin\Debug\GlobalConfig.pdb
+E:\SVN\MilnerSalesCommission\Source\DataAccess\DBHelper\obj\Debug\DBContext.csprojResolveAssemblyReference.cache
+E:\SVN\MilnerSalesCommission\Source\DataAccess\DBHelper\obj\Debug\DBContext.dll
+E:\SVN\MilnerSalesCommission\Source\DataAccess\DBHelper\obj\Debug\DBContext.pdb

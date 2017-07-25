@@ -1,0 +1,184 @@
+<div id="content-wrapper" class="new-commission-slip"><!--content-wrapper">-->
+  <div class="container"><!--container-->
+    <h1>Paylocity/GL</h1>
+       <div class="form-wrapper"><!--form-wrapper-->
+      <form class="form-horizontal" role="form">
+          <div class="deactive" ng-if="PendingStatus==1">NOTE: {{Pendingcount}} Slip(s) is/are pending for your approval. Please Approve the slip(s) before Report generation.</div>
+          <div class="active" ng-if="PendingStatus==2">NOTE: Great! All the slips for the accounting period are approved. You can generate the report.</div>
+          <div class="active" ng-if="PendingStatus==3">NOTE: You have already generated this report!</div>
+          <div class="col-md-6 col-md-offset-6">
+              <div class="row">
+                  <ul class="pull-right no-padding action-icons" >
+                      <li><a href="javascript:void(0)" data-toggle="tooltip" title="Only 'Payroll Accepted' commission and tip Lead slips are considered for Paylocity and General Ledger report generation. Leaving a commission slip / Tip lead slip unapproved will lead to calculation errors. Ensure all the slips approval, before generating GL and Paylocity report for an accounting period."><i class="fa fa-lg fa-info-circle text-info"></i></a></li>
+                  </ul>
+              </div>
+          </div>
+          
+        <div class="form-group row">
+        <div class="col-md-4">
+            <!--<label for="saleperson-name" class="col-md-12 control-label">Select Month</label>
+            <div class="col-md-12">
+                <div class="input-group date form_date_month">
+                    <input type="text" class="form-control"  name="monthperiod" id="monthperiod" ng-model="Reports.ReportPeriod" ng-change="GetCountforPaylocity()" readonly />
+                    <span class="input-group-addon"> <span class="fa fa-calendar"> </span> </span>
+                </div>
+            </div>-->
+            <label class="col-md-12 control-label">Year</label>
+            <div class="col-md-12">
+                <div data-date="">
+                    <select class="form-control" ng-model="Reports.ReportYear" ng-change="onReportYearChange(Reports.ReportYear)" name="Reportperiod" id="Reportperiod" required>
+                        <option value="">SELECT</option>
+                        <option ng-repeat="reportyear in ReportdropdownConfigyear" value="{{reportyear.Year}}">{{reportyear.Year}}</option>
+                    </select>
+                </div>
+            </div>
+          </div>
+
+          <div class="col-md-4">
+                      <div class="col-sm-12" style="padding-top: 30px;">
+              <label class="radio-inline">
+                <input type="radio" name="paylocity-gl-report" ng-model="Reports.Type" id="paylocity-gl-report" value="1" checked>
+                Paylocity Rep. </label>
+              <label class="radio-inline">
+                <input type="radio" name="paylocity-gl-report" ng-model="Reports.Type" id="paylocity-gl-report" value="2">
+                General Ledger Rep. </label>
+			  </div>
+          </div>
+          <div class="col-md-4" ng-if="Reports.Type==1">
+            <label class="col-md-12 control-label">Location</label>
+                <div class="col-sm-12">
+           <select ng-model="Reports.BranchID" class="form-control" name="primarybranch" id="primarybranch" required>
+               <option value="">SELECT</option>
+               <option ng-repeat="item in Brancheslists | filter:{ IsActive: true }" value="{{item.BranchID}}">{{item.BranchName}}</option>
+           </select>
+			  </div>
+          </div>
+            <div class="col-md-4" ng-show="Reports.ReportYear">
+                <label class="col-md-12 control-label">Period</label>
+                <div class="col-md-12">
+                    <div data-date="">
+                        <!--<input class="form-control" size="16" type="text" value="" ng-model="Commissionreportperiod"  name="reportperiod" id="reportperiod" >
+                <span class="input-group-addon"><span class="fa fa-calendar" onclick="showcalendar()"> </span> </span>
+                <input type="hidden"  value="" ng-model="ReportInputparameter.ReportPeriod=Commissionreportperiod" />-->
+                        <select class="form-control" ng-model="Reports.PayrollConfigID" name="Reportperiod" id="Reportperiod" ng-change="GetCountforPaylocity()" required>
+                            <option value="">SELECT</option>
+                            <option ng-repeat="reportyear in EditPayroll" value="{{reportyear.ID}}">{{reportyear.Month}}</option>
+                        </select>
+                        <label>{{PeriodDetail}}</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+      </form>
+    </div>
+    <!--form-wrapper-->   
+    
+    
+
+	  <div class="clearfix"></div>
+    
+    <div class="col-md-6 col-md-offset-6">
+     	<div class="row">
+      	<ul class="pull-right btns">
+				<li><a class="btn"  href="javascript:void(0)" ng-click="ViewPaylocityGLReport()">View</a></li>
+		</ul>
+		</div>
+	  </div>
+	  
+	    <div class="clearfix"></div>	  
+
+        <div ng-if="ReportType==1||ReportType==2" class="report-content"><!--Report Content-->
+			<div class="col-md-6 row" style="margin-bottom: 0px;"><h2>Report Content</h2></div>
+      <div><b>Period:</b>{{ReportPeriodNote}}</div>
+         <div class="clearfix"></div>
+         <div class="table-responsive" ng-if="ReportType==1"><!--table Responsive-->
+            <table class="table table-striped">
+              <thead>
+                <tr>
+                  <th nowrap>Employee ID</th>
+                  <th nowrap>Earnings</th>
+                  <th nowrap>Commission</th>
+                  <th nowrap></th>
+                  <th nowrap>Amount</th>  
+          
+                </tr>
+              </thead>
+              
+
+              <tbody>
+                  <tr ng-repeat="item in PaylocityExportList">
+                      <td>{{item.EmployeeID}}</td>
+                      <td>{{item.Earnings}}</td>
+                      <td>{{item.Commission}}</td>
+                      <td></td>
+                      <td class="displayamount">{{item.Amount|number:2}}</td>
+                  </tr>               
+              </tbody>
+              <tbody ng-if="PaylocityExportList.length == 0">
+                    <tr>
+                        <td colspan="7" class="text-center text-danger">No Records found</td>
+                    </tr>
+               </tbody>
+            </table>
+	</div><!--table Responsive-->
+
+
+         <div class="table-responsive" ng-if="ReportType==2">
+                <!--table responsive-->
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th nowrap>Month</th>
+                            <th nowrap>BranchName</th>
+                            <th nowrap class="displayamount">Total Commission Paid</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="item in GLExportList">
+                            <td>{{item.Month}}</td>
+                            <td>{{item.BranchName}}</td>
+                            <td class="displayamount">{{item.TotalCommissionPaid|number:2}}</td>
+                         </tr>    
+                    </tbody>
+                    <tbody ng-if="GLExportList.length == 0">
+                        <tr>
+                            <td colspan="7" class="text-center text-danger">No Records found</td>
+                        </tr>
+                    </tbody>
+                </table>
+       </div><!--table Responsive-->
+
+
+	  </div><!--Report Content-->
+
+	  <div class="clearfix"></div>
+    
+    <div class="col-md-6 col-md-offset-6" ng-if="PaylocityExportList.length > 0 || GLExportList.length > 0">
+     	<div class="row">
+      	<ul class="pull-right btns">
+				<!--<li><a class="btn" href="#">Export to CSV</a></li>-->
+              <li ng-if="PaylocityExportList.length> 0&&ReportType==1"><a class="btn btn-primary" ng-click="SaveReportConfirmation(Reports)">Export to CSV</a></li>
+              <li ng-show="false" ng-if="PaylocityExportList.length> 0&&ReportType==1"><a id="Paylocitybutton" class="btn btn-primary"  export export-data="PaylocityExportList" export-filename="'Paylocity'">Export to CSV</a></li>
+              <li ng-if="GLExportList.length > 0 &&ReportType==2"><a class="btn btn-primary" export export-data="GLExportList" export-filename="'GeneralLedger'">Export to CSV</a></li>
+        </ul>
+		</div>
+	  </div>
+
+
+
+  </div><!--container-->
+</div><!--content-wrapper">-->
+<script>
+    $('.form_date_month').datetimepicker({
+        language: 'en',
+        weekStart: 1,
+        todayBtn: 0,
+        autoclose: 1,
+        todayHighlight: 1,
+        startView: 3,
+        minView: 3,
+        forceParse: 0,
+        format: 'mm/yyyy',
+        endDate: new Date()
+    });
+</script>

@@ -1,0 +1,85 @@
+<div id="content-wrapper">
+    <form name="AddPayrollConfigurationForm">
+        <div class="container">
+            <h1 class="pull-left">Payroll Configuration - </h1><div class="pull-left form-group no-btm-margin">
+                <select ng-model="TempPayroll.Year" name="payrollyear" id="payrollyear" class="form-control" required>
+                    <option value="">YEAR</option>
+                    <option ng-repeat="reportyear in Reportdropdownyear" value="{{reportyear.value}}">{{reportyear.name}}</option>
+                </select>
+                <span ng-show="AddPayrollConfigurationForm.$dirty && AddPayrollConfigurationForm.payrollyear.$error.required" class="text-danger field-validation-error">This is a required field</span>
+             </div>
+            <div>
+            </div>
+            <div class="clearfix"></div>
+            <div  class="table-responsive form-wrapper">
+                <table ng-if="TempPayroll.Year" class="table">
+                    <thead>
+                        <tr>
+                            <th> Name </th>
+                            <th colspan="2"> Closing Date </th>
+                            <th> Date From </th>
+                            <th>Date To</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                            <tr ng-repeat="Row in Payrollconfigrow">
+                                <td>
+                                    <div class="form-group no-btm-margin">
+                                        <input type="text" class="form-control" ng-model="Row.Month" name="Month{{$index}}" id="Month{{$index}}" ng-pattern="/^[a-zA-Z0-9,.' ]*$/" maxlength="30" ng-blur="ValidateBranch(Row.BranchName,$index)" required>
+                                        <span ng-show="AddPayrollConfigurationForm.$dirty && AddPayrollConfigurationForm['Month'+$index].$error.required" class="text-danger field-validation-error">This is a required field</span>
+                                        <span ng-show="AddPayrollConfigurationForm['Month'+$index].$error.pattern" class="text-danger field-validation-error">This field is invalid </span>
+
+
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="form-group no-btm-margin">
+                                        <select name="closingmonth{{$index}}" id="closingmonth{{$index}}" class="form-control" ng-model="Row.Period"  ng-options="label for label in Months" ng-change="SetDateTo($index); UpdateNumberOfDays($index);">
+                                         <option value="" selected="selected">Month</option>
+                                        </select>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="form-group no-btm-margin">
+                                   <select ng-model="Row.Day" name="closingday{{$index}}" id="closingday{{$index}}" class="form-control" ng-options="label for label in Days | limitTo:NumberOfDays[$index]"  ng-change="SetDateTo($index)"><option value="" selected="selected">Day</option></select>
+                                </div>
+                                </td>
+                                <td>
+                                    <div class="form-group no-btm-margin"><input type="text" class="form-control" readonly name="datefrom{{$index}}" id="datefrom{{$index}}" ng-model="Row.DateFrom" /></div>
+                                </td>
+                                <td>
+                                    <div class="form-group no-btm-margin"><input type="text" class="form-control" readonly name="dateto{{$index}}" id="dateto{{$index}}" ng-model="Row.DateTo" /></div>
+                                </td>
+                                <td>
+                                    <ul class="add-remove-icons no-padding">
+                                        <li><a href="javascript:void(0);" ng-click="AddNewPayrollConfigRow()"><i class="fa fa-lg fa-plus active"></i></a></li>
+                                        <li ng-if="Payrollconfigrow.length!=1"><a href="javascript:void(0);" ng-click="RemoveNewPayrollConfigRow($index)"><i class="fa fa-lg fa-remove disabled"></i></a></li>
+                                    </ul>
+                                </td>
+                            </tr>
+
+</tbody>
+                </table>
+
+                <div class="clearfix"></div>
+            </div>
+            <div class="clearfix"></div>
+
+            <div class="col-md-6 col-md-offset-6">
+                <div class="row">
+                    <ul class="pull-right btns">
+                        <!--<li><a class="btn" ng-click="AddPlan()" href="javascript:void(0);" >Save</a></li>-->
+                        <li><input type="button" value="Save" class="btn" ng-disabled="AddPayrollConfigurationForm.$invalid" ng-click="AddPayroll()"></li>
+                        <li><a class="btn" href="javascript:void(0)" ng-click="NewPayrollCancelConfirmation()">Cancel</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+<script type="text/javascript">
+    $('.search-icon').click(function () {
+        $('.search').val('').toggle();
+    });
+</script>

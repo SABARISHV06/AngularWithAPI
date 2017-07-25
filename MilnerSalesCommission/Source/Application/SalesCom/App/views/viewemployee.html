@@ -1,0 +1,241 @@
+﻿
+<div id="content-wrapper" class="view" style="padding-bottom: 25px;"><!--content-wrapper">-->
+  <div class="container" ><!--container-->
+    <h1>View Employee</h1>
+       <div class="form-wrapper"><!--form-wrapper-->
+      <form class="form-horizontal" role="form">
+        <div class="form-group row">
+
+
+          <div class="employee-details"><!--employee-details-->
+
+          <div class="col-md-6" style="margin-bottom: 0px;"><div class="col-md-12"><h2>Employee Details</h2></div></div>
+
+          <div class="col-md-12 row">
+            <div class="col-md-6">
+             <label class="col-sm-4 control-label">Account Name</label>
+                  <div class="col-sm-8">
+    <input type="text"  class="form-control text-left" ng-model="Employeedetail.AccountName" place-holder="" disabled/>
+                  </div>
+            </div>
+            <div class="col-md-6">
+              <label class="col-sm-4 control-label">Employee Identifier</label>
+              <div class="col-sm-8">
+                 <input type="text" class="form-control" id="employee-identifier" ng-model="Employeedetail.EmployeeID" placeholder="" disabled>
+              </div>
+                   </div>
+
+                    <div class="col-md-6">
+             <label class="col-sm-4 control-label">First Name</label>
+                  <div class="col-sm-8">
+                     <input type="text" class="form-control" id="first-name" ng-model="Employeedetail.FirstName" placeholder="" disabled>
+                  </div>
+            </div>
+            <div class="col-md-6">
+              <label class="col-sm-4 control-label">Last Name</label>
+              <div class="col-sm-8">
+                 <input type="text" class="form-control" id="" placeholder="" ng-model="Employeedetail.LastName" disabled>
+              </div>
+                   </div>
+
+                    <div class="col-md-6">
+             <label class="col-sm-4 control-label">Type</label>
+                  <div class="col-sm-8">
+                   <input type="text" class="form-control" id="" ng-model="Employeedetail.RoleName" placeholder="" disabled>
+                  </div>
+            </div>
+
+                  <div class="col-md-6">
+              <label class="col-sm-4 control-label">Email</label>
+              <div class="col-sm-8">
+                 <input type="email" class="form-control" id="email" placeholder=""  ng-model="Employeedetail.Email" disabled>
+              </div>
+                   </div>
+
+                    <div class="col-md-6">
+            <label class="col-md-4 control-label">Date of Hire</label>
+            <div class="col-md-8">
+             <input type="text" class="form-control" id="" placeholder="" value=""  ng-model="Employeedetail.DateofHire|date:'MM/dd/yyyy'" disabled>
+            </div>
+          </div>
+
+                  <div class="col-md-6">
+            <label class="col-md-4 control-label">Date in Position</label>
+            <div class="col-md-8">
+              <input type="text" class="form-control" id="" placeholder="" value="" ng-model="Employeedetail.DateInPosition|date:'MM/dd/yyyy'" disabled>
+            </div>
+          </div>
+
+          </div>
+			</div>   <!--employee-details-->
+
+        <div class="clearfix"></div>
+
+         <div ng-if="Employeedetail.RoleID==RolesType.SalesRep|| Employeedetail.RoleID==RolesType.SalesManager|| Employeedetail.RoleID==RolesType.GeneralManager||Employeedetail.RoleID==RolesType.NonSalesEmployee" class="branch-location"><!--branch-location-->
+
+          <div class="col-md-6" style="margin-bottom: 0px;"><div class="col-md-12"><h2>Branch Location</h2></div></div>
+
+          <div class="col-md-12 row">
+            <div class="col-md-6">
+             <label class="col-sm-4 control-label">Primary Branch</label>
+                  <div class="col-sm-8">
+                   <input type="text" class="form-control" id="" placeholder="" value="" ng-model="Employeedetail.PrimaryBranchName" disabled>
+                  </div>
+            </div>
+             <div class="col-md-6" ng-if="Employeedetail.RoleID==RolesType.SalesRep">
+             <label class="col-sm-4 control-label">Secondary Branch(es)</label>
+                  <div class="col-sm-8">
+                  <input type="text" class="form-control" id="" placeholder="" value="" ng-model="Employeedetail.SecondaryBranchName" disabled>
+                  </div>
+            </div>
+          </div>
+			</div>   <!--branch-location-->
+
+         <div class="clearfix"></div>
+
+         <div ng-if="Employeedetail.RoleID==RolesType.SalesRep|| Employeedetail.RoleID==RolesType.SalesManager||Employeedetail.RoleID==RolesType.NonSalesEmployee" class="reporting-to" ><!--Reporting To-->
+
+          <div class="col-md-6" style="margin-bottom: 0px;"><div class="col-md-12"><h2>Reporting To</h2></div></div>
+
+          <div class="col-md-12 row">
+            <div class="col-md-6"  ng-if="Employeedetail.RoleID==RolesType.SalesRep">
+             <label class="col-sm-4 control-label">Sales Manager</label>
+                  <div class="col-sm-8">
+                    <input type="text" class="form-control" id="" placeholder="" value="" ng-model="Employeedetail.ReportMgrName" disabled>
+                  </div>
+            </div>
+             <div class="col-md-6" ng-if="Employeedetail.RoleID==RolesType.SalesRep || Employeedetail.RoleID==RolesType.SalesManager||Employeedetail.RoleID==RolesType.NonSalesEmployee">
+             <label class="col-sm-4 control-label">General Manager</label>
+                  <div class="col-sm-8">
+              <input type="text" class="form-control" id="" placeholder="" value="" ng-model="Employeedetail.ApproveMgrName" disabled>
+                  </div>
+            </div>
+          </div>
+			</div><!--Reporting To-->
+		  </div></form></div><!--form-wrapper-->
+
+
+			<div class="clearfix"></div>
+
+
+			           <div ng-if="Employeedetail.RoleID==RolesType.SalesRep"  class="form-wrapper top-space"><!--form-wrapper-->
+      <form class="form-horizontal" role="form">
+        <div class="form-group row">
+
+                        <div class="set-bonus-parameters col-md-12 row"> <!--Set Bonus Parameters-->
+							<div class="col-md-6" style="margin-bottom: 0px;"><div class="col-md-12"><h2>Base Pay Details</h2></div></div>
+											<div class="clearfix"></div>
+							   <div class="col-md-8">
+             <label class="col-sm-3 control-label">Pay Plan Name</label>
+                  <div class="col-sm-6">
+                  <input type="text" class="form-control" id="" placeholder="" value="" ng-model="Employeedetail.PayPlanName" disabled>
+                  </div>
+								   <div class="col-sm-3"><span><a href="javascript:void(0)" ng-if="Employeedetail.PayPlanID" ng-click="ModalViewPayPlan(Employeedetail.PayPlanID)" class="view-plan-details">View Plan Details</a></span>
+            </div>
+							</div>
+							<div class="clearfix"></div>
+            <div class="draw-salary top-space"><!--draw-salary-->
+            <div class="col-md-6">
+            <label class="col-sm-4 control-label">Salary</label>
+            <div class="col-sm-8">
+              <input type="text" class="form-control" id="" placeholder="" value="" ng-model="Employeedetail.BPSalary" disabled>
+            </div>
+          </div>
+
+          <div class="col-md-6" ng-if="Employeedetail.BPSalary=='Yes'">
+            <label class="col-sm-4 control-label">Monthly Amount</label>
+            <div class="col-sm-8">
+            <input type="text" class="form-control" id="" placeholder="" value="" ng-model="Employeedetail.MonthAmount" disabled>
+            </div>
+          </div>
+
+		<div class="clearfix"></div>
+
+
+   <div class="col-md-6 top-space">
+              <label class="col-sm-4 control-label">Draw</label>
+              <div class="col-sm-8">
+<div class="input-group">
+                  <input type="text" class="form-control" value="" ng-model="Employeedetail.BPDraw" disabled>
+                </div>              </div>
+            </div>
+
+      <div class="col-md-6 top-space"  ng-if="Employeedetail.BPDraw=='Yes'">
+            <label class="col-sm-4 control-label">Draw Amount</label>
+            <div class="col-sm-8">
+             <input type="text" class="form-control" id="" placeholder="" value="" ng-model="Employeedetail.DDAmount" disabled>
+            </div>
+          </div>
+
+							</div><!--draw-salary-->
+
+							<div class="clearfix"></div>
+
+
+							<div class="quarterly-tenure-bonus"><!--quarterly-tenure-bonus-->
+
+         <div class="fields">
+
+             <div class="col-md-3" ng-if="Employeedetail.BPDraw=='Yes'">
+                 <label class="col-sm-12 control-label">Draw Type</label>
+                 <div class="col-sm-12">
+                     <div class="input-group">
+                         <input type="text" class="form-control" value="" ng-model="Employeedetail.TypeofDraw" disabled>
+                     </div>
+                 </div>
+
+             </div>
+
+          <div class="col-md-3" ng-if="Employeedetail.TypeofDraw=='Recoverable'">
+              <label class="col-sm-12 control-label">Draw Recovery</label>
+              <div class="col-sm-12">
+                     <div class="input-group">
+                  <input type="text" class="form-control" aria-label="percentage" value="" ng-model="Employeedetail.DRPercentage" disabled> <span class="input-group-addon">%</span>
+                </div>
+            </div>
+              </div>
+              <div class="col-md-3" ng-if="Employeedetail.BPDraw=='Yes'">
+              <label class="col-sm-12 control-label">Draw Term</label>
+              <div class="col-sm-12">
+          <input type="text" class="form-control" id="tier" placeholder="" value="" ng-model="Employeedetail.DrawTerm" disabled>
+            </div>
+              </div>
+
+              <div class="col-md-3" ng-if="Employeedetail.BPDraw=='Yes'">
+              <label class="col-sm-12 control-label">Draw Deficit Period</label>
+      <div class="col-sm-12">
+               <input type="text" class="form-control" id="" placeholder="" value="" ng-model="Employeedetail.DDPeriod|date:'MM/yyyy'" disabled>
+				  </div>
+              </div>
+
+
+								</div>
+							</div><!--quarterly-tenure-bonus-->
+
+
+
+
+		   </div> <!--Set Bonus Parameters-->
+
+
+        </div>
+
+            </form>
+    </div><!--form-wrapper-->
+
+  <div class="clearfix"></div>
+
+    <div class="col-md-6 col-md-offset-6">
+     	<div class="row">
+      	<ul class="pull-right btns">
+				<li><a class="btn" href="javascript:void(0)" ng-click="GoToEmployeeDetails()">Back</a></li>
+	    </ul>
+		</div>
+	  </div>
+
+
+
+
+  </div><!--container-->
+</div><!--content-wrapper">-->
+

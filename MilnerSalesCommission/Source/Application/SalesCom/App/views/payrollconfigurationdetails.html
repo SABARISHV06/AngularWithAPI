@@ -1,0 +1,77 @@
+<div id="content-wrapper">
+    <div class="container">
+        <h1 class="pull-left">Payroll Configuration Details</h1>
+        <div>
+            <ul class="btns pull-right">
+                <li><a class="btn" href="javascript:void(0);" ng-click="GoToAddPayrollConfiguration()"><i class="fa fa-1x fa-plus"></i>Add New Configuration</a></li>
+            </ul>
+        </div>
+        <div class="clearfix"></div>
+        <div class="table-responsive">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th ng-click="Sort('Year')">
+                            Year
+                            <span class="glyphicon sort-icon" ng-show="SortKey=='Year'" ng-class="{'glyphicon-chevron-up':Order,'glyphicon-chevron-down':!Order}"></span>
+                        </th>
+                        <th ng-click="Sort('CreatedByName')">
+                            Created By
+                            <span class="glyphicon sort-icon" ng-show="SortKey=='CreatedByName'" ng-class="{'glyphicon-chevron-up':Order,'glyphicon-chevron-down':!Order}"></span>
+                        </th>
+                        <th ng-click="Sort('CreatedOn')">
+                            Created On
+                            <span class="glyphicon sort-icon" ng-show="SortKey=='CreatedOn'" ng-class="{'glyphicon-chevron-up':Order,'glyphicon-chevron-down':!Order}"></span>
+                        </th>
+                        <th ng-click="Sort('ModifiedByName')">
+                            Last Modified By
+                            <span class="glyphicon sort-icon" ng-show="SortKey=='ModifiedByName'" ng-class="{'glyphicon-chevron-up':Order,'glyphicon-chevron-down':!Order}"></span>
+                         </th>
+                        <th>Actions</th>
+                        <th id="search-wrapper"><div class="search-icon fa fa-search fa-lg"></div><input class="search" type="search" placeholder="Search" ng-model="search" /></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-if="PayrollDS.length==0" >
+                        <td colspan="6" class="text-center text-danger">No Records found</td>
+                    </tr>
+
+                    <tr  dir-paginate="rows in PayrollDS|filter:search|orderBy:SortKey:Order|itemsPerPage:pageSize">
+                        <td>{{rows.Year}}</td>
+                        <td>{{rows.CreatedByName}}</td>
+                        <td>{{rows.CreatedOn|date:'MM/dd/yyyy'}}</td>
+                        <td>{{rows.ModifiedByName}}</td>
+                        <td>
+                            <ul class="no-padding action-icons">
+                                <li><a href="javascript:void(0);" data-toggle="tooltip" title="View" ng-click="GoToViewPayrollConfiguration(rows.Year)"><i class="fa fa-lg fa-eye"></i></a></li>
+                                <li> <a href="javascript:void(0);" data-toggle="tooltip" title="Edit" ng-click="GoToEditPayrollConfiguration(rows.Year)"><i class="fa fa-lg fa-edit"></i></a></li>
+                            </ul>
+
+                        </td>
+                        <td></td>
+                    </tr>
+
+                </tbody>
+            </table>
+            <div class="clearfix"></div>
+			   <div class="col-md-3 bottom-space">
+                <select name="pageSize" id="pageSize" ng-model="pageSize">
+                    <option value="10" ng-selected="true">10</option>
+                    <option value="25">25</option>
+                    <option value="50">50</option>
+                </select> records per page
+            </div>
+            <div class="col-md-9">
+                <dir-pagination-controls max-size="10"
+                                         direction-links="true"
+                                         boundary-links="true">
+                </dir-pagination-controls>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    $('.search-icon').click(function () {
+        $('.search').val('').toggle();
+});
+</script>

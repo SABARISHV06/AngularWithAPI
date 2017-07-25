@@ -1,0 +1,131 @@
+<div id="content-wrapper">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4">
+                <h1 ng-if="LoggedinEmployee.RoleID==RolesType.SalesRep" class="pull-left">Commission Slip</h1>
+                <h1 ng-if="LoggedinEmployee.RoleID==RolesType.NonSalesEmployee" class="pull-left">Tip Lead Slip</h1>
+            </div>
+            <div class="col-md-6">
+                <div ng-if="LoggedinEmployee.RoleID==RolesType.SalesRep">
+                    <p ng-if="ISPlanDeactivated"  class="view-plan-details payplanalerts">No Payplan mapped to your account. Please contact Payroll</p>
+                    <p ng-if="IsGMDeactivated"  class="view-plan-details payplanalerts">You are not mapped to a GM user, please contact your payroll</p>
+                </div>
+                <div ng-if="LoggedinEmployee.RoleID==RolesType.NonSalesEmployee">
+                    <p ng-if="IsGMDeactivated" class="view-plan-details payplanalerts">You are not mapped to a GM user, please contact your payroll</p>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <ul class="btns pull-right">
+                    <li ng-if="LoggedinEmployee.RoleID==RolesType.SalesRep||LoggedinEmployee.RoleID==RolesType.PayRoll"><a class="btn" href="javascript:void(0)" ng-click="GoToAddCommissionslip()"><i class="fa fa-1x fa-plus"></i>Add New Slip</a></li>
+                </ul>
+            </div>
+            </div>
+                <div class="clearfix"></div>
+
+                <div class="table-responsive">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th ng-click="Sort('ID')">
+                                    Slip ID
+                                    <span class="glyphicon sort-icon" ng-show="SortKey=='ID'" ng-class="{'glyphicon-chevron-up':Order,'glyphicon-chevron-down':!Order}"></span>
+                                </th>
+                                <th ng-click="Sort('DateofSale')">
+                                    Date of Sale
+                                    <span class="glyphicon sort-icon" ng-show="SortKey=='DateofSale'" ng-class="{'glyphicon-chevron-up':Order,'glyphicon-chevron-down':!Order}"></span>
+                                </th>
+                                <th ng-if="LoggedinEmployee.RoleID==RolesType.SalesRep||LoggedinEmployee.RoleID==RolesType.NonSalesEmployee" ng-click="Sort('CustomerName')">
+                                    Customer Name
+                                    <span class="glyphicon sort-icon" ng-show="SortKey=='CustomerName'" ng-class="{'glyphicon-chevron-up':Order,'glyphicon-chevron-down':!Order}"></span>
+                                </th>
+                                <th ng-if="LoggedinEmployee.RoleID!=RolesType.SalesRep&&LoggedinEmployee.RoleID!=RolesType.NonSalesEmployee" ng-click="Sort('CustomerName')">
+                                    Employee Name
+                                    <span class="glyphicon sort-icon" ng-show="SortKey=='SalesRepName'" ng-class="{'glyphicon-chevron-up':Order,'glyphicon-chevron-down':!Order}"></span>
+                                </th>
+                                <th ng-click="Sort('TotalCEarned')">
+                                    Tot. Commission ($)
+                                    <span class="glyphicon sort-icon" ng-show="SortKey=='TotalCEarned'" ng-class="{'glyphicon-chevron-up':Order,'glyphicon-chevron-down':!Order}"></span>
+                                </th>
+                                <th ng-click="Sort('Status')">
+                                    Status
+                                    <span class="glyphicon sort-icon" ng-show="SortKey=='Status'" ng-class="{'glyphicon-chevron-up':Order,'glyphicon-chevron-down':!Order}"></span>
+                                </th>
+                                <th>Actions</th>
+                                <th id="search-wrapper"><div class="search-icon fa fa-search fa-lg"></div><input class="search" type="search" placeholder="Search" ng-model="search" /></th>
+                            </tr>
+                        </thead>
+
+
+                        <tbody>
+                            <tr dir-paginate="Commission in Commissionslips|orderBy:SortKey:Order|filter:search|itemsPerPage:pageSize">
+                                <td>{{Commission.ID}}</td>
+                                <td>{{Commission.DateofSale|date:'MM/dd/yyyy'}}</td>
+                                <td>{{Commission.CustomerName}}</td>
+                                <td class="displayamount">{{Commission.TotalCEarned|number : 2}}</td>
+                                <td><span class="waiting">{{Commission.Status}}</span></td>
+                                <td>
+                                    <ul class="no-padding action-icons" ng-if="LoggedinEmployee.RoleID==RolesType.SalesRep">
+                                        <!--For Sales Rep-->
+                                        <li><a href="javascript:void(0)" ng-click="GoToViewCommissionslip(Commission.ID,false)" data-toggle="tooltip" title="View"><i class="fa fa-lg fa-eye"></i></a></li>
+                                        <li ng-if="(Commission.Status=='Draft' || Commission.Status=='Waiting for approval')&&Commission.SlipType==SlipsType.CommissionSlip"> <a href="javascript:void(0)" ng-click="GoToEditCommissionslip(Commission.ID)" data-toggle="tooltip" title="Edit"><i class="fa fa-lg fa-edit"></i></a></li>
+                                        <li ng-if="Commission.Status!='Draft' && Commission.Status!='Waiting for approval'&&Commission.SlipType==SlipsType.CommissionSlip"> <a href="javascript:void(0)"><i class="fa fa-lg fa-edit disabled"></i></a></li>
+                                        <li ng-if="Commission.Status=='Draft'&&Commission.SlipType==SlipsType.CommissionSlip"><a href="javascript:void(0)" ng-click="DeleteMessage(Commission)" class="" data-toggle="tooltip" title="Delete"><i class="fa fa-lg fa-remove"></i></a></li>
+                                        <li ng-if="(Commission.Status=='SM-Rejected' || Commission.Status=='GM-Rejected')&&Commission.SlipType==SlipsType.CommissionSlip"><a href="javascript:void(0)" ng-click="GoToResubmitCommissionslip(Commission.ID)" class="" data-toggle="tooltip" title="Resubmit"><i class="fa fa-lg fa-retweet"></i></a></li>
+                                    </ul>
+                                    <ul class="no-padding action-icons" ng-if="LoggedinEmployee.RoleID==RolesType.GeneralManager">
+                                        <!--For General Manager-->
+                                        <li><a href="javascript:void(0)" ng-click="GoToViewCommissionslip(Commission.ID,false)" data-toggle="tooltip" title="View"><i class="fa fa-lg fa-eye"></i></a></li>
+                                        <li ng-if="Commission.Status!='Payroll Processed'"> <a href="javascript:void(0)" ng-click="GoToEditCommissionslip(Commission.ID)" data-toggle="tooltip" title="Review"><i class="fa fa-lg fa-check-circle"></i></a></li>
+                                        <li ng-if="Commission.Status=='Payroll Processed'"> <a href="javascript:void(0)"><i class="fa fa-lg fa-check-circle disabled"></i></a></li>
+                                    </ul>
+                                    <ul class="no-padding action-icons" ng-if="LoggedinEmployee.RoleID==RolesType.SalesManager">
+                                        <!--For Sales Manager-->
+                                        <li><a href="javascript:void(0)" ng-click="GoToViewCommissionslip(Commission.ID,false)" data-toggle="tooltip" title="View"><i class="fa fa-lg fa-eye"></i></a></li>
+                                        <li ng-if="Commission.Status!='SM-Rejected' && Commission.Status!='SM-Accepted'&&Commission.Status!='Payroll Processed'&&Commission.SlipType==SlipsType.CommissionSlip"> <a href="javascript:void(0)" ng-click="GoToViewCommissionslip(Commission.ID,true)" data-toggle="tooltip" title="Review"><i class="fa fa-lg fa-check-circle"></i></a></li>
+                                        <li ng-if="(Commission.Status=='SM-Accepted' || Commission.Status=='SM-Rejected'||Commission.Status=='Payroll Processed')&&Commission.SlipType==SlipsType.CommissionSlip  "> <a href="javascript:void(0)"><i class="fa fa-lg fa-check-circle disabled"></i></a></li>
+                                    </ul>
+                                    <ul class="no-padding action-icons" ng-if="LoggedinEmployee.RoleID==RolesType.PayRoll	">
+                                        <!--For Pay Roll-->
+                                        <li><a href="javascript:void(0)" ng-click="GoToViewCommissionslip(Commission.ID,false)" data-toggle="tooltip" title="View"><i class="fa fa-lg fa-eye"></i></a></li>
+                                        <li ng-if="Commission.Status!='Payroll Processed'"> <a href="javascript:void(0)" ng-click="GoToEditCommissionslip(Commission.ID)" data-toggle="tooltip" title="Review"><i class="fa fa-lg fa-check-circle"></i></a></li>
+                                        <li ng-if="Commission.Status=='Payroll Processed'"> <a href="javascript:void(0)"><i class="fa fa-lg fa-check-circle disabled"></i></a></li>
+                                    </ul>
+                                    <ul class="no-padding action-icons" ng-if="LoggedinEmployee.RoleID==RolesType.NonSalesEmployee">
+                                        <!--For Non-Sale Employee-->
+                                        <li><a href="javascript:void(0)" ng-click="GoToViewCommissionslip(Commission.ID,false)" data-toggle="tooltip" title="View"><i class="fa fa-lg fa-eye"></i></a></li>
+                                    </ul>
+                                </td>
+                                <td></td>
+                            </tr>
+
+                        </tbody>
+                        <tbody ng-if="Commissionslips.length == 0">
+                            <tr>
+                                <td colspan="7" class="text-center text-danger">No Records found</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div class="clearfix"></div>
+                    <div class="col-md-3 bottom-space">
+                        <select name="pageSize" id="pageSize" ng-model="pageSize">
+                            <option value="10" ng-selected="true">10</option>
+                            <option value="25">25</option>
+                            <option value="50">50</option>
+                        </select> records per page
+                    </div>
+                    <div class="col-md-9">
+                        <dir-pagination-controls max-size="10"
+                                                 direction-links="true"
+                                                 boundary-links="true">
+                        </dir-pagination-controls>
+                    </div>
+                </div>
+
+            </div>
+            <!--<ul uib-pagination total-items="totalItems" ng-model="currentPage" ng-change="pageChanged()"></ul>-->
+        </div>
+        <script type="text/javascript">
+            $('.search-icon').click(function () {
+                $('.search').val('').toggle();
+            });
+        </script>

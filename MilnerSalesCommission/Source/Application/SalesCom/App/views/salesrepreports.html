@@ -1,0 +1,531 @@
+<script>
+    function showcalendar() {
+        $('.form_date').datetimepicker({
+            language: 'en',
+            weekStart: 1,
+            todayBtn: 0,
+            autoclose: 1,
+            todayHighlight: 1,
+            startView: 3,
+            minView: 3,
+            forceParse: 0,
+            format: 'mm/yyyy',
+            endDate: new Date()
+        });
+    }
+</script> 
+<div id="content-wrapper" class="new-commission-slip"><!--content-wrapper">-->
+  <div class="container"><!--container-->
+    <h1>Employee</h1>
+       <div class="form-wrapper"><!--form-wrapper-->
+      <form class="form-horizontal" role="form">
+        <div class="form-group row">
+            <div class="col-md-4" ng-if="LoggedinEmployee.RoleID==RolesType.NonSalesEmployee">
+                <label class="col-md-12 control-label">Type</label>
+                <div class="col-sm-12">
+                    <select class="form-control" ng-model="ReportInputparameter.ReportType" name="reporttype" id="reporttype" required>
+                        <option value="">SELECT</option>
+                        <option value="1">Commission Details</option>
+                    </select>
+                </div>
+            </div>
+          <div class="col-md-4" ng-if="LoggedinEmployee.RoleID==RolesType.SalesRep||LoggedinEmployee.RoleID==RolesType.PayRoll">
+            <label class="col-md-12 control-label">Type</label>
+                   <div class="col-sm-12">
+                       <select class="form-control" ng-model="ReportInputparameter.ReportType" name="reporttype" id="reporttype" required>
+                           <option value="">SELECT</option>
+                           <option ng-repeat="type in SRReportTypes" value="{{type.value}}">{{type.name}}</option>
+                       </select>
+    			  </div>
+          </div>
+            <div class="col-md-4"  ng-if="LoggedinEmployee.RoleID==RolesType.SalesManager||LoggedinEmployee.RoleID==RolesType.GeneralManager">
+                <label class="col-md-12 control-label">Type</label>
+                <div class="col-sm-12">
+                    <select class="form-control" ng-model="ReportInputparameter.ReportType" name="reporttype" id="reporttype" required>
+                        <option value="">SELECT</option>
+                        <option ng-repeat="type in SMGMReportTypes" value="{{type.value}}">{{type.name}}</option>
+                    </select>
+                </div>
+            </div>
+            <div ng-if="LoggedinEmployee.RoleID!=RolesType.SalesRep&&LoggedinEmployee.RoleID!=RolesType.NonSalesEmployee&&ReportInputparameter.ReportType==1" class="col-md-4">
+                <label for="saleperson-name" class="col-md-12 control-label">Employee Name</label>
+                <div class="col-md-12">
+                    <input type="text" ng-model="SelectedSalesperson" uib-typeahead="person as person.LastName+','+person.FirstName for person in TipLeadlist | filter:{LastName:$viewValue} | limitTo:8" class="form-control" name="SplitSalePerson" id="SplitSalePerson" required  autocomplete="off">
+                    <span ng-show="sraddcommissionform.$dirty && sraddcommissionform.SplitSalePerson.$error.required" class="text-danger field-validation-error">This is a required field</span>
+                    <input type="hidden" id="dtp_accountperiod" value="" ng-model="ReportInputparameter.SalesPerson=SelectedSalesperson.UID" />
+                    <!--<input type="text" class="form-control" id="saleperson-name" placeholder="">-->
+                </div>
+            </div>
+            <div ng-if="LoggedinEmployee.RoleID!=RolesType.SalesRep &&LoggedinEmployee.RoleID!=RolesType.NonSalesEmployee &&ReportInputparameter.ReportType==2" class="col-md-4">
+                <label for="saleperson-name" class="col-md-12 control-label">Employee Name</label>
+                <div class="col-md-12">
+                    <input type="text" ng-model="SelectedSalesperson" uib-typeahead="person as person.LastName+','+person.FirstName for person in SRSalespersons | filter:{LastName:$viewValue} | limitTo:8" class="form-control" name="SplitSalePerson" id="SplitSalePerson" required  autocomplete="off">
+                    <span ng-show="sraddcommissionform.$dirty && sraddcommissionform.SplitSalePerson.$error.required" class="text-danger field-validation-error">This is a required field</span>
+                    <input type="hidden" id="dtp_accountperiod" value="" ng-model="ReportInputparameter.SalesPerson=SelectedSalesperson.UID" />
+                    <!--<input type="text" class="form-control" id="saleperson-name" placeholder="">-->
+                </div>
+            </div>
+          <div class="col-md-4" ng-if="ReportInputparameter.ReportType==1">
+            <label class="col-md-12 control-label">Period</label>
+            <div class="col-md-12">
+                <div data-date="">
+                    <!--<input class="form-control" size="16" type="text" value="" ng-model="Commissionreportperiod"  name="reportperiod" id="reportperiod" >
+                    <span class="input-group-addon"><span class="fa fa-calendar" onclick="showcalendar()"> </span> </span>
+                    <input type="hidden"  value="" ng-model="ReportInputparameter.ReportPeriod=Commissionreportperiod" />-->
+                    <div class="input-group date form_date" data-date="">
+                        <input class="form-control" size="16" type="text" value="" onclick="showcalendar()" ng-model="ReportInputparameter.ReportPeriod" name="reportperiod" id="reportperiod" readonly>
+                        <span class="input-group-addon"><span class="fa fa-calendar" onclick="showcalendar()"> </span> </span>
+                    </div>
+                    <!--<select class="form-control" ng-model="ReportInputparameter.ReportYear" ng-change="onReportYearChange(ReportInputparameter.ReportYear)" name="Reportperiod" id="Reportperiod" required>
+                        <option value="">SELECT</option>
+                        <option ng-repeat="reportyear in ReportdropdownConfigyear" value="{{reportyear.Year}}">{{reportyear.Year}}</option>
+                    </select>-->
+                </div>
+            </div>
+          </div>
+            <!--<div class="col-md-4" ng-if="ReportInputparameter.ReportType==1" ng-show="ReportInputparameter.ReportYear">
+                <label class="col-md-12 control-label">Period</label>
+                <div class="col-md-12">
+                    <div data-date="">
+                        <input class="form-control" size="16" type="text" value="" ng-model="Commissionreportperiod"  name="reportperiod" id="reportperiod" >
+                <span class="input-group-addon"><span class="fa fa-calendar" onclick="showcalendar()"> </span> </span>
+                <input type="hidden"  value="" ng-model="ReportInputparameter.ReportPeriod=Commissionreportperiod" />
+                        <select class="form-control" ng-model="ReportInputparameter.PayrollConfigID" name="Reportperiod" id="Reportperiod" required>
+                            <option value="">SELECT</option>
+                            <option ng-repeat="reportyear in EditPayroll" value="{{reportyear.ID}}" >{{reportyear.Month}}</option>
+                        </select>
+                        <label>{{PeriodDetail}}</label>
+                    </div>
+                </div>
+            </div>-->
+            <div class="col-md-2" ng-if="ReportInputparameter.ReportType==2">
+                <!--<label class="col-md-12 control-label">From Period</label>
+                <div class="col-md-12">
+                    <div class="input-group date form_date" data-date="">
+                        <input class="form-control" size="16" type="text" value="" onclick="showcalendar()" ng-model="TotalearningFromperiod" name="reportperiod" id="reportperiod" readonly>
+                        <span class="input-group-addon"><span class="fa fa-calendar" onclick="showcalendar()"> </span> </span>
+                        <input type="hidden" value="" ng-model="ReportInputparameter.ReportFrom=TotalearningFromperiod" />
+                    </div>
+                </div>-->
+                <label class="col-md-12 control-label">Period</label>
+                <select class="form-control" ng-model="ReportInputparameter.ReportYear" name="Reportperiod" id="Reportperiod" required>
+                    <option value="">SELECT</option>
+                    <option ng-repeat="reportyear in Reportdropdownyear" value="{{reportyear.value}}">{{reportyear.name}}</option>
+                </select>
+            </div>
+            <!--<div class="col-md-2" ng-if="ReportInputparameter.ReportType==2">
+                <label class="col-md-12 control-label">To Period</label>
+                <div class="col-md-12">
+                    <div class="input-group date form_date" data-date="">
+                        <input class="form-control" size="16" type="text" value="" onclick="showcalendar()" ng-model="TotalearningToperiod" name="reportperiod" id="reportperiod" readonly>
+                        <span class="input-group-addon"><span class="fa fa-calendar" onclick="showcalendar()"> </span> </span>
+                        <input type="hidden" value="" ng-model="ReportInputparameter.ReportTo=TotalearningToperiod" />
+                    </div>
+                </div>
+            </div>-->
+            <div class="col-md-4" ng-if="ReportInputparameter.ReportType==3">
+                <label class="col-md-12 control-label">Period</label>
+                <div class="col-md-12">
+                    <select class="form-control" ng-model="ReportInputparameter.ReportYear" name="Reportperiod" id="Reportperiod" required>
+                        <option value="">SELECT</option>
+                        <option ng-repeat="reportyear in Reportdropdownyear" value="{{reportyear.value}}">{{reportyear.name}}</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+      </form>
+    </div>
+    <!--form-wrapper-->   
+    
+    
+
+	  <div class="clearfix"></div>
+    
+    <div class="col-md-6 col-md-offset-6">
+     	<div class="row">
+      	<ul class="pull-right btns">
+				<li><a class="btn" href="javascript:void(0)" ng-click="Getcommissionreport()">Generate Report</a></li>
+			  </ul>
+		</div>
+	  </div>
+	  
+	    <div class="clearfix"></div>	  
+
+      <div class="period">
+          <!--Period-->
+          <!--<div ng-if="ReportError==0&&ReportType!=0" class="col-md-6 row" style="margin-bottom: 0px;"><h2>Period: <span>{{ReportPeriodNote}}</span></h2></div>-->
+          <div class="clearfix"></div>
+      
+          <div ng-if="ReportType==1 && ReportError==0" id="commissiondetailstable">
+              <div class="table-responsive">
+                  <table class="table reportstableheadings">
+                      <tr>
+                          <th colspan="4"><h3>MILNER INC. EARNING STATEMENT</h3></th>
+                      </tr>
+                      <tr>
+                          <td colspan="1"><b>Period:</b> {{ReportPeriodNote}}</td>
+                          <td colspan="2"><b>Report Type:</b> Commission Details</td>
+                          <td colspan="1" ng-if="Employeedetail.RoleID==RolesType.SalesRep"><b>Employee Type:</b> Sales Rep</td>
+                          <td colspan="1" ng-if="Employeedetail.RoleID==RolesType.NonSalesEmployee"><b>Employee Type:</b> Non-Sales Employee</td>
+                      </tr>
+                      <tr>
+                          <td><b>Employee:</b> {{Employeedetail.FirstName}} {{Employeedetail.LastName}}</td>
+                          <td><b>Employee ID:</b> {{Employeedetail.EmployeeID}}</td>
+                          <td><b>General Manager:</b> {{Employeedetail.ApproveMgrName}}</td>
+                          <td><b>Date of Hire:</b> {{Employeedetail.DateofHire|date:'MM/dd/yyyy'}}</td>
+                      </tr>
+                  </table>
+              </div>
+              <div class="table-responsive">
+                  <!--table Responsive-->
+                  <h2>Month Commission Slip Details</h2>
+                  <table class="table table-striped">
+                      <thead>
+                          <tr>
+                              <th nowrap>Invoice No</th>
+                              <th nowrap>Customer Description</th>
+                              <th nowrap>Unit Description</th>
+                              <th nowrap>Split Rep Name</th>
+                              <th nowrap>Trade In($)</th>
+                              <th nowrap>DV($)</th>
+                              <th nowrap>Base($)</th>
+                              <th nowrap>Lease($)</th>
+                              <th nowrap>Service($)</th>
+                              <th nowrap>Travel($)</th>
+                              <th nowrap>Special($)</th>
+                              <th nowrap>Cash($)</th>
+                              <th nowrap>Tip Lead Amount($)</th>
+                              <th nowrap>Positive Adj($)</th>
+                              <th nowrap>Negative Adj($)</th>
+                              <th nowrap>Tip Lead Earning($)</th>
+                              <th nowrap>Total Com($)</th>
+                          </tr>
+                      </thead>
+
+
+                      <tbody>
+                          <tr ng-repeat="commission in Commissionslips">
+                              <td ng-if="!$last">{{commission.InvoiceNumber}}</td>
+                              <td ng-if="$last"><b>Total</b></td>
+                              <td>{{commission.CustomerName}}</td>
+                              <td>{{commission.CommentSold}}</td>
+                              <td>{{commission.SplitSalePerson}}</td>
+                              <td>{{commission.TradeIn|number:2}}</td>
+                              <td class="displayamount">{{commission.DollarVolume|number:2}}</td>
+                              <td class="displayamount">{{commission.BaseCommission|number:2}}</td>
+                              <td class="displayamount">{{commission.LeaseCommission|number:2}}</td>
+                              <td class="displayamount">{{commission.ServiceCommission|number:2}}</td>
+                              <td class="displayamount">{{commission.TravelCommission|number:2}}</td>
+                              <td class="displayamount">{{commission.SpecialCommission|number:2}}</td>
+                              <td class="displayamount">{{commission.CashCommission|number:2}}</td>
+                              <td class="displayamount">{{commission.TipLeadAmount|number:2}}</td>
+                              <td class="displayamount">{{commission.PositiveAdjustments|number:2}}</td>
+                              <td class="displayamount">{{commission.NegativeAdjustments|number:2}}</td>
+                              <td class="displayamount">{{commission.CompanyContribution|number:2}}</td><!--Tiplead earning for Tip slip-->
+                              <td ng-if="!$last" class="displayamount">{{commission.TotalCEarned|number:2}}   <a id="editreport" ng-if="(LoggedinEmployee.RoleID==RolesType.GeneralManager||LoggedinEmployee.RoleID==RolesType.PayRoll)&&commission.ProcesByPayroll!=1" href="javascript:void(0)" ng-click="ModalEditReportCommission(commission.ID)"><i class="fa fa-lg fa-edit"></i></a></td>
+                              <td ng-if="$last" class="displayamount">{{commission.TotalCEarned|number:2}}</td>
+                          </tr>
+                      </tbody>
+                  </table>
+              </div><!--table Responsive-->
+
+              <div class="clearfix"></div>
+
+              <div ng-if="Employeedetail.RoleID==RolesType.SalesRep" class="table-responsive">
+                  <!--month commission due table Responsive-->
+                  <h2>Month Commission Due</h2>
+                  <table class="table table-striped">
+                      <thead>
+                          <tr>
+                              <th nowrap>Run</th>
+                              <th nowrap>Total Commission($) <span>A</span></th>
+                              <th nowrap>Draw (Paid)($)</th>
+                              <th nowrap>Draw (Recovered)($) <span>B</span></th>
+                              <th nowrap>Commission Due($) <span>A-B</span></th>
+                          </tr>
+                      </thead>
+                      <tbody>
+                          <tr ng-repeat="Commission in CommissionReportDetails">
+                              <td>Run{{$index+1}}</td>
+                              <td class="displayamount">{{Commission.TotalCommission|number:2}}</td>
+                              <td class="displayamount">{{Commission.DrawPaid|number:2}}</td>
+                              <td class="displayamount">{{Commission.DrawRecovered|number:2}}</td>
+                              <td class="displayamount">{{Commission.CommissionDue|number:2}}</td>
+                          </tr>
+                          <tr>
+                              <td><b>Total</b></td>
+                              <td class="displayamount">{{TotalReportValue.TotalCommission|number:2}}</td>
+                              <td class="displayamount">{{TotalReportValue.DrawPaid|number:2}}</td>
+                              <td class="displayamount">{{TotalReportValue.DrawRecovered|number:2}}</td>
+                              <td class="displayamount">{{TotalReportValue.CommissionDue|number:2}}</td>
+                          </tr>
+                      </tbody>
+                  </table>
+              </div><!--table Responsive-->
+
+              <div class="clearfix"></div>
+
+              <div ng-if="Employeedetail.RoleID==RolesType.SalesRep" class="table-responsive">
+                  <!--month summary table Responsive-->
+                  <h2>Month Summary</h2>
+                  <table class="table table-striped">
+                      <thead>
+                          <tr>
+                              <th nowrap>Run</th>
+                              <th nowrap>Commission Due($)</th>
+                              <th nowrap>Draw (Paid)($)</th>
+                              <th nowrap>Salary($)</th>
+                              <th nowrap>Bimonthly Bonus($)</th>
+                              <th nowrap>Tenure Bonus($)</th>
+                              <th nowrap>Total Earnings($)</th>
+                          </tr>
+                      </thead>
+
+
+                      <tbody>
+                          <tr ng-repeat="Commission in CommissionReportDetails">
+                              <td>Run{{$index+1}}</td>
+                              <td class="displayamount">{{Commission.CommissionDue|number:2}}</td>
+                              <td class="displayamount">{{Commission.DrawPaid|number:2}}</td>
+                              <td class="displayamount">{{Commission.Salary|number:2}}</td>
+                              <td class="displayamount">{{Commission.Bimonthreport|number:2}}</td>
+                              <td class="displayamount">{{Commission.Tenurereport|number:2}}</td>
+                              <td class="displayamount">{{Commission.TotalEarning|number:2}}</td>
+                          </tr>
+                          <tr>
+                              <td><b>Total</b></td>
+                              <td class="displayamount">{{TotalReportValue.CommissionDue|number:2}}</td>
+                              <td class="displayamount">{{TotalReportValue.DrawPaid|number:2}}</td>
+                              <td class="displayamount">{{TotalReportValue.Salary|number:2}}</td>
+                              <td class="displayamount">{{TotalReportValue.Bimonthreport|number:2}}</td>
+                              <td class="displayamount">{{TotalReportValue.Tenurereport|number:2}}</td>
+                              <td class="displayamount">{{TotalReportValue.TotalEarning|number:2}}</td>
+                          </tr>
+                      </tbody>
+                  </table>
+              </div><!--table Responsive-->
+
+              <div class="clearfix"></div>
+
+              <div ng-if="Employeedetail.RoleID==RolesType.SalesRep" class="table-responsive">
+                  <!-- Draw details table Responsive-->
+                  <h2>Draw Details</h2>
+                  <table class="table table-striped">
+                      <thead>
+                          <tr>
+                              <th nowrap>Draw Type</th>
+                              <th nowrap>Applicable till</th>
+                              <th nowrap>Monthly Draw Amount($)</th>
+                              <th nowrap>Recoverable %</th>
+                              <th nowrap>Draw (Paid)($)</th>
+                              <th nowrap>Draw (Recovered)($)</th>
+                              <th nowrap>Draw Deficit($)</th>
+                          </tr>
+                      </thead>
+                      <tbody>
+                          <tr>
+                              <!--<td>{{CommissionReportDetails.DrawType}}</td>
+                              <td>{{CommissionReportDetails.Applicabletill}}</td>
+                              <td class="displayamount">{{CommissionReportDetails.DrawAmount|number:2}}</td>
+                              <td class="displayamount">{{CommissionReportDetails.RecoverablePercent|number:2}}</td>
+                              <td class="displayamount">{{CommissionReportDetails.DrawPaid|number:2}}</td>
+                              <td class="displayamount">{{CommissionReportDetails.DrawRecovered|number:2}}</td>
+                              <td class="displayamount">{{CommissionReportDetails.DrawDificit|number:2}}</td>-->
+                              <td>{{DrawReportDetails.DrawType}}</td>
+                              <td>{{DrawReportDetails.Applicabletill}}</td>
+                              <td class="displayamount">{{DrawReportDetails.DrawAmount|number:2}}</td>
+                              <td class="displayamount">{{DrawReportDetails.RecoverablePercent|number:2}}</td>
+                              <td class="displayamount">{{DrawReportDetails.DrawPaid|number:2}}</td>
+                              <td class="displayamount">{{DrawReportDetails.DrawRecovered|number:2}}</td>
+                              <td class="displayamount">{{DrawReportDetails.DrawDificit|number:2}}</td>
+                          </tr>
+                      </tbody>
+                  </table>
+              </div><!--table Responsive-->
+              <div class="clearfix"></div>
+          </div>
+
+
+          <div ng-if="ReportType==2&&ReportError==0" id="totalearningstable">
+              <div class="table-responsive">
+                  <table class="table reportstableheadings">
+                      <tr>
+                          <th colspan="4"><h3>MILNER INC. EARNING STATEMENT</h3></th>
+                      </tr>
+                      <tr>
+                          <td colspan="2"><b>Period:</b> {{ReportPeriodNote}}</td>
+                          <td colspan="2"><b>Report Type:</b> Total Earnings</td>
+                      </tr>
+                      <tr>
+                          <td><b>Employee:</b> {{Employeedetail.FirstName}} {{Employeedetail.LastName}}</td>
+                          <td><b>Employee ID:</b> {{Employeedetail.EmployeeID}}</td>
+                          <td><b>General Manager:</b> {{Employeedetail.ApproveMgrName}}</td>
+                          <td><b>Date of Hire:</b> {{Employeedetail.DateofHire|date:'MM/dd/yyyy'}}</td>
+                      </tr>
+                  </table>
+                </div>
+              <div class="table-responsive">
+                  <!-- Total Earnings table Responsive-->
+                  <table class="table table-striped">
+                      <thead>
+                          <tr>
+                              <th nowrap>Period</th>
+                              <th nowrap>Draw (Paid)($)</th>
+                              <th nowrap>Commission Due($)</th>
+                              <th nowrap>Salary($)</th>
+                              <th nowrap>Bimonthly Bonus($)</th>
+                              <th nowrap>Tenure Bonus($)</th>
+                              <th nowrap>Total Earn($)</th>
+                          </tr>
+                      </thead>
+                      <tbody>
+                          <tr ng-repeat="ReportTotalEarning in ReportTotalEarnings">
+                              <td ng-if="ReportTotalEarning.ReportMonth<10">0{{ReportTotalEarning.ReportMonth}}/{{ReportTotalEarning.ReportYear}}</td>
+                              <td ng-if="ReportTotalEarning.ReportMonth>=10">{{ReportTotalEarning.ReportMonth}}/{{ReportTotalEarning.ReportYear}}</td>
+                              <td class="displayamount">{{ReportTotalEarning.DrawPaid|number:2}}</td>
+                              <td class="displayamount">{{ReportTotalEarning.CommissionDue|number:2}}</td>
+                              <td class="displayamount">{{ReportTotalEarning.Salary|number:2}}</td>
+                              <td class="displayamount">{{ReportTotalEarning.Bimonthreport|number:2}}</td>
+                              <td class="displayamount">{{ReportTotalEarning.Tenurereport|number:2}}</td>
+                              <td class="displayamount">{{ReportTotalEarning.TotalEarning|number:2}}</td>
+                          </tr>
+                          <!--<tr>
+                              <td>10/2016</td>
+                              <td>2,000.00</td>
+                              <td>300.00</td>
+                              <td>3,300.00</td>
+                              <td>30.00</td>
+                              <td>70.00</td>
+                              <td>660.00</td>
+                          </tr>
+                          <tr>
+                              <td><strong>Subtotal</strong></td>
+                              <td><strong>3,000.00</strong></td>
+                              <td><strong>500.00</strong></td>
+                              <td><strong>5,500.00</strong></td>
+                              <td><strong>30.00</strong></td>
+                              <td><strong>120.00</strong></td>
+                              <td><strong>1,100.00</strong></td>
+                          </tr>-->
+                      </tbody>
+                      <tbody ng-if="ReportTotalEarnings.length == 0">
+                          <tr>
+                              <td colspan="7" class="text-center text-danger">No Records found</td>
+                          </tr>
+                      </tbody>
+                  </table>
+              </div><!--table Responsive-->
+              <div class="clearfix"></div>
+          </div>
+
+          <div ng-if="ReportType==3&&ReportError==0" id="incentivetripstable">
+              <div class="table-responsive">
+                  <table class="table reportstableheadings">
+                      <tr>
+                          <th colspan="4"><h3>MILNER INC. EARNING STATEMENT</h3></th>
+                      </tr>
+                      <tr>
+                          <td colspan="2"><b>Period:</b> {{ReportPeriodNote}}</td>
+                          <td colspan="2"><b>Report Type:</b> Incentive Trips</td>
+                      </tr>
+                  </table>
+               </div>
+              <div class="table-responsive">
+                  <!-- Incentive Trip table Responsive-->
+                  <table class="table table-striped">
+                      <thead>
+                          <tr>
+                              <th nowrap>Sales Representative</th>
+                              <th nowrap>DV Summation($)</th>
+                          </tr>
+                      </thead>
+                      <tbody>
+                          <tr ng-repeat="commission in Commissionslips">
+                              <td>{{commission.SalesPerson}}</td>
+                              <td class="displayamount">{{commission.DollarVolume|number:2}}</td>
+                          </tr>
+                          <!--<tr>
+                              <td>Mess Waltz</td>
+                              <td>3,300.00</td>
+                          </tr>
+                          <tr>
+                              <td>Ronnie Jeff</td>
+                              <td>5,500.00</td>
+                          </tr>-->
+                      </tbody>
+                  </table>
+              </div><!--table Responsive-->
+          </div>
+          <div ng-if="ReportError==1" id="ReportError">
+              <div class="table-responsive">
+                  <h2>Report can not be generated for this period, since sales representative in position from {{Empdateinposition}}</h2>
+              </div>
+          </div>
+              </div><!--Period-->
+              <div class="clearfix"></div>
+
+              <div class="col-md-6 col-md-offset-6" ng-if="ReportType==1&&ReportError==0">
+                  <div class="row">
+                      <ul class="pull-right btns">
+                          <li><a class="btn" href="javascript:void(0)" onclick="generateCommissionPDF()">Export to PDF</a></li>
+                      </ul>
+                  </div>
+              </div>
+      <div class="col-md-6 col-md-offset-6" ng-if="ReportType==2&&ReportError==0">
+          <div class="row">
+              <ul class="pull-right btns">
+                  <li><a class="btn" href="javascript:void(0)" onclick="generateTotalPDF()">Export to PDF</a></li>
+              </ul>
+          </div>
+      </div>
+      <div class="col-md-6 col-md-offset-6" ng-if="ReportType==3&&ReportError==0">
+          <div class="row">
+              <ul class="pull-right btns">
+                  <li><a class="btn" href="javascript:void(0)" onclick="generateIncentivePDF()">Export to PDF</a></li>
+              </ul>
+          </div>
+      </div>
+
+          </div><!--container-->
+      </div><!--content-wrapper">-->
+<script type="text/javascript">
+    var generateCommissionPDF = function () {
+    debugger;
+        var editElement = document.getElementById("editreport");
+        if (editElement != null) document.getElementById("editreport").style.display = "none";
+        var filename = $("#reporttype option:selected").text() + " " + $("#reportperiod").val();
+        filename= filename.replace("/", " ");
+        kendo.drawing.drawDOM($("#commissiondetailstable"), { allPages: true, paperSize: "A1", margin: { top: "1cm", left: "1cm", right: "1cm", bottom: "1cm" }, landscape: true, repeatHeaders: true, }).then(function (group) {
+            kendo.drawing.pdf.saveAs(group, filename + ".pdf");
+         if (editElement != null) document.getElementById("editreport").style.display = "block";
+        });
+
+    }
+    var generateTotalPDF = function () {
+        var filename = $("#reporttype option:selected").text() + " " + $("#Reportperiod").val();
+        filename = filename.replace("/", " ");
+        kendo.drawing.drawDOM($("#totalearningstable"), { allPages: true, paperSize: "A2", margin: { top: "1cm", left: "1cm", right: "1cm", bottom: "1cm" }, landscape: true, repeatHeaders: true, }).then(function (group) {
+            kendo.drawing.pdf.saveAs(group, filename + ".pdf");
+        });
+    }
+    var generateIncentivePDF = function () {
+        var filename = $("#reporttype option:selected").text() + " " + $("#Reportperiod").val();
+        filename = filename.replace("/", " ");
+        kendo.drawing.drawDOM($("#incentivetripstable"), { allPages: true, paperSize: "A4", margin: { top: "1cm", left: "1cm", right: "1cm", bottom: "1cm" }, landscape: true, repeatHeaders: true, }).then(function (group) {
+            kendo.drawing.pdf.saveAs(group, filename + ".pdf");
+        });
+    }
+    $('.form_date').datetimepicker({
+        language: 'en',
+        weekStart: 1,
+        todayBtn: 0,
+        autoclose: 1,
+        todayHighlight: 1,
+        startView: 3,
+        minView: 3,
+        forceParse: 0,
+        format: 'mm/yyyy'
+        //endDate: new Date()
+    });
+
+</script>

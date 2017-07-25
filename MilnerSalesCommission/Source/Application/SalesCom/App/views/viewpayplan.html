@@ -1,0 +1,232 @@
+<div id="content-wrapper" class="new-commission-slip view"><!--content-wrapper">-->
+  <div class="container"><!--container-->
+    <h1>View Pay Plan</h1>
+    <div class="form-wrapper"><!--form-wrapper-->
+      <form class="form-horizontal" role="form">
+        <div class="form-group no-btm-margin">
+          <div class="col-md-6">
+            <label for="saleperson-name" class="col-sm-4 control-label">Pay Plan Name</label>
+            <div class="col-sm-8">
+              <input type="text"ng-model="Plandetail.PlanName" class="form-control text-left" id="saleperson-name" placeholder="" value="Plan 1" disabled>
+            </div>
+          </div>
+
+        </div>
+      </form>
+    </div><!--form-wrapper-->
+    <div class="clearfix"></div>
+    <h2>Set Target Gross Profit</h2>
+    <div class="form-wrapper"><!--form-wrapper-->
+      <form class="form-horizontal" role="form">
+        <div class="form-group row">
+          <div class="col-md-6">
+            <label class="col-sm-4 control-label">Based Upon </label>
+            <div class="col-sm-8">
+             <input type="text" class="form-control" ng-model="Plandetail.BasisType" disabled>
+            </div>
+          </div>
+
+          <div class="clearfix"></div>
+
+          <div class="new-customer"><!--new-customer-->
+
+          <div class="col-md-6" style="margin-bottom: 0px;"><div class="col-md-12"><h2>New Customer</h2></div></div>
+              <div class="col-md-12 scrollPayplandetails">
+                  <div class="col-md-12 row" ng-repeat="TGP in Plandetail.TGPcustomerlist|filter: {CustomerType:1}">
+                      <div class="col-md-6">
+                          <label class="col-sm-4 control-label">Sale Type</label>
+                          <div class="col-sm-8">
+                              <input type="text" class="form-control" ng-model="TGP.SalesTypeName" disabled>
+                          </div>
+                      </div>
+                      <div class="col-md-6">
+                          <label class="col-sm-4 control-label">Percentage</label>
+                          <div class="col-sm-6">
+                              <input type="text" class="form-control" id="saleperson-name" placeholder="" value="" ng-model="TGP.Percentage" disabled>
+                          </div>
+                          <div class="col-sm-2">
+                          </div>
+                      </div>
+                  </div>
+              </div>
+              </div>   <!--new-customer-->
+
+        <div class="clearfix"></div>
+
+         <div class="existing-customer"><!--Existing Customer-->
+
+          <div class="col-md-6" style="margin-bottom: 0px;"><div class="col-md-12"><h2>Existing Customer</h2></div></div>
+             <div class="col-md-12 scrollPayplandetails">
+                 <div class="col-md-12 row" ng-repeat="TGP in Plandetail.TGPcustomerlist|filter: {CustomerType:2}">
+                     <div class="col-md-6">
+                         <label class="col-sm-4 control-label">Sale Type</label>
+                         <div class="col-sm-8">
+                             <input type="text" class="form-control" ng-model="TGP.SalesTypeName" disabled>
+                         </div>
+                     </div>
+                     <div class="col-md-6">
+                         <label class="col-sm-4 control-label">Percentage</label>
+                         <div class="col-sm-6">
+                             <input type="text" class="form-control" id="saleperson-name" placeholder="" value="" ng-model="TGP.Percentage" disabled>
+                         </div>
+                         <div class="col-sm-2">
+                         </div>
+                     </div>
+                 </div>
+             </div>
+             </div>   <!--Existing Customer-->
+
+
+			<div class="clearfix"></div>
+
+			  <div><hr></div>
+
+                        <div class="set-bonus-parameters col-md-12 row"> <!--Set Bonus Parameters-->
+							<div class="col-md-6" style="margin-bottom: 0px;"><div class="col-md-12"><h2>Set Bonus Parameters</h2></div></div>
+							<div class="clearfix"></div>
+            <div class="bi-monthly-quota-bonus"><!--bi-monthly-quota-bonus-->
+            <div class="col-md-8">
+            <label class="col-sm-4 control-label">Bi-Monthly Quota Bonus </label>
+            <div class="col-sm-8">
+              <input type="text" class="form-control" id="saleperson-name" placeholder="" ng-model="Plandetail.BMQuotaBonus"  disabled>
+            </div>
+          </div>
+
+		<div class="clearfix"></div>
+                <div class="col-md-12 scrollPayplandetails">
+                    <div class="fields clearfix" ng-repeat="Bimonthly in Plandetail.Bimonthlylist">
+
+                        <div class="col-md-2">
+                            <label class="col-sm-12 control-label">Months</label>
+                            <div class="col-sm-12">
+                                <input type="text" class="form-control" id="saleperson-name" placeholder="" value="" ng-model="Bimonthly.Months" disabled>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <label class="col-sm-12 control-label">Tier</label>
+                            <div class="col-sm-12">
+                                <input type="text" class="form-control" id="tier" placeholder="" value="" ng-model="Bimonthly.Tier" disabled>
+                            </div>
+                        </div>
+
+              <div class="col-md-4">
+              <label class="col-sm-12 control-label">Entry Point</label>
+              <div class="col-sm-5">
+          <input type="text" class="form-control" id="tier" placeholder="" value="" ng-model="Bimonthly.EntryPointA" disabled>
+            </div>
+             <div class="col-sm-1">
+             _
+				  </div>
+             <div class="col-sm-5">
+          <input type="text" class="form-control" id="tier" placeholder="" value="" ng-model="Bimonthly.EntryPointB" disabled>
+            </div>
+              </div>
+
+              <div class="col-md-3">
+              <label class="col-sm-12 control-label">Percentage</label>
+              <div class="col-sm-8">
+                 <input type="text" class="form-control" id="saleperson-name" placeholder="" value="" ng-model="Bimonthly.Percentage" disabled>
+              </div>
+              <div class="col-sm-4">
+				</div>
+            </div>
+				</div>
+
+							</div><!--bi-monthly-quota-bonus-->
+
+							<div class="clearfix"></div>
+								  <div><hr></div>
+
+
+							<div class="quarterly-tenure-bonus"><!--quarterly-tenure-bonus-->
+							<div class="col-md-8">
+            <label class="col-sm-4 control-label">Quarterly Tenure  Bonus  </label>
+            <div class="col-sm-8">
+              <input type="text" class="form-control" id="saleperson-name" placeholder="" ng-model="Plandetail.TenureBonus"  disabled>
+            </div>
+          </div>
+
+		<div class="clearfix"></div>
+                                <div class="col-md-12 scrollPayplandetails">
+                                    <div class="fields" ng-repeat="Tenure in Plandetail.TenureBonuslist">
+
+                                        <div class="col-md-3">
+                                            <label class="col-sm-12 control-label">Months</label>
+                                            <div class="col-sm-12">
+                                                <input type="text" class="form-control" id="saleperson-name" placeholder="" value="" ng-model="Tenure.Months" disabled>
+
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <label class="col-sm-12 control-label">Tier</label>
+                                            <div class="col-sm-12">
+                                                <input type="text" class="form-control" id="tier" placeholder="" value="" ng-model="Tenure.Tier" disabled>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-3">
+                                            <label class="col-sm-12 control-label">Entry Point</label>
+                                            <div class="col-sm-12">
+                                                <input type="text" class="form-control" id="tier" placeholder="" value="" ng-model="Tenure.EntryPointA" disabled>
+                                            </div>
+                                            <!--<div class="col-sm-1">
+                   _
+                        </div>
+                   <div class="col-sm-5">
+                <input type="text" class="form-control" id="tier" value="" ng-model="Tenure.EntryPointB"  disabled>
+                  </div>-->
+                                        </div>
+
+                                        <div class="col-md-3">
+                                            <label class="col-sm-12 control-label">Percentage</label>
+                                            <div class="col-sm-8">
+                                                <input type="text" class="form-control" id="saleperson-name" value="" ng-model="Tenure.Percentage" disabled>
+                                            </div>
+                                            <div class="col-sm-4">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+							</div><!--quarterly-tenure-bonus-->
+
+							<div class="clearfix"></div>
+
+								  <div><hr></div>
+
+							<div class="sales-manager-eligible"><!--sales-manager-eligible-->
+							<div class="col-md-8">
+            <label class="col-sm-4 control-label">Sales Manager Eligible   </label>
+            <div class="col-sm-8">
+             <input type="text" class="form-control" id="saleperson-name" placeholder="" ng-model="Plandetail.SMEligible"  disabled>
+            </div>
+          </div>
+							</div> <!--sales-manager-eligible-->
+
+
+		   </div> <!--Set Bonus Parameters-->
+
+       <div class="clearfix"></div>
+
+
+
+
+        </div>
+      </form>
+    </div><!--form-wrapper-->
+
+    <div class="clearfix"></div>
+
+
+	  <div class="clearfix"></div>
+
+    <div class="col-md-6 col-md-offset-6">
+     	<div class="row">
+      	<ul class="pull-right btns">
+				<li><a class="btn" href="javascript:void(0)" ng-click="GoToPayPlanDetails()">Back</a></li>
+			  </ul>
+		</div>
+	  </div>
+
+
+  </div><!--container-->
+</div><!--content-wrapper">-->

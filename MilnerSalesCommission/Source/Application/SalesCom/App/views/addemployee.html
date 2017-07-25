@@ -1,0 +1,400 @@
+﻿<script type="text/javascript">
+
+    function callCalendar() {
+        $('.form_date_month').datetimepicker({
+            language: 'en',
+            weekStart: 1,
+            todayBtn: 0,
+            autoclose: 1,
+            todayHighlight: 1,
+            viewSelect: 'year',
+            startView: 3,
+            minView: 3,
+            forceParse: 0,
+            format: 'mm/yyyy',
+            initialDate: new Date(),
+            startDate:new Date()
+            //endDate: new Date()
+        });
+    }
+    $(document).ready(function(){
+    $('.form_date').datetimepicker({
+        language: 'en',
+        weekStart: 1,
+        todayBtn: 0,
+        autoclose: 1,
+        todayHighlight: 1,
+        startView: 2,
+        minView: 2,
+        forceParse: 0,
+        allowInputToggle: true,
+        endDate: new Date()
+    });
+    $('.form_date_month').datetimepicker({
+        language: 'en',
+        weekStart: 1,
+        todayBtn: 0,
+        autoclose: 1,
+        todayHighlight: 1,
+        startView: 3,
+        minView: 3,
+        forceParse: 0,
+        format: 'mm/yyyy',
+        startDate: new Date()
+        //endDate: new Date()
+    });
+    });
+</script>
+<div id="content-wrapper" class="new-commission-slip"><!--content-wrapper">-->
+  <form class="form-horizontal" role="form" name="addemployeeform" id="addemployeeform" ng-submit="CreateEmployeeConfirmation()">
+      <div class="container">
+          <!--container-->
+          <h1  class="pull-left">New Employee</h1>
+         <div class="clearfix"></div>
+          <div class="form-wrapper">
+              <!--form-wrapper-->
+              <div class="form-group row">
+                  <div class="employee-details">
+                      <!--employee-details-->
+
+                      <div class="col-md-6" style="margin-bottom: 0px;"><div class="col-md-12"><h2>Employee Details</h2></div></div>
+
+                      <div class="col-md-12 row">
+                          <div class="col-md-6 required">
+                              <label class="col-sm-4 control-label">Account Name</label>
+                              <div class="col-sm-8">
+                                  <div class="input-group">
+                                      <input type="text" ng-model="Selecteduser" uib-typeahead="person for person in Userslist | filter:$viewValue | limitTo:10" class="form-control" name="accname" id="accname" autocomplete="off" required>
+                                      <input type="hidden" ng-model="Employeedetail.AccountName=Selecteduser" >
+                                      <span class="input-group-addon"><i class="fa fa-lg fa-search"></i></span>
+                                  </div>
+                                  <div><span ng-show="addemployeeform.$dirty && addemployeeform.accname.$error.required" class="text-danger field-validation-error">This is a required field</span></div>
+                              </div>
+                          </div>
+                          <div class="col-md-6  required">
+                              <label class="col-sm-4 control-label">Employee Identifier</label>
+                              <div class="col-sm-8">
+                                  <input type="text" class="form-control" ng-model="Employeedetail.EmployeeID" name="empidentifier" id="empidentifier" ng-pattern="/^[a-zA-Z0-9,.' ]*$/" required>
+                                  <span ng-show="addemployeeform.$dirty && addemployeeform.empidentifier.$error.required" class="text-danger field-validation-error">This is a required field</span>
+                                  <span ng-show="addemployeeform.empidentifier.$error.pattern" class="text-danger field-validation-error">This field is invalid </span>
+                               </div>
+                          </div>
+                          <div class="clearfix"></div>
+                          <div class="col-md-6 required">
+                              <label class="col-sm-4 control-label">First Name</label>
+                              <div class="col-sm-8">
+                                  <input type="text" class="form-control" ng-model="Employeedetail.FirstName" name="firstname" id="firstname" ng-pattern="/^[a-zA-Z,.']*$/" maxlength="30" required>
+                                  <span ng-show="addemployeeform.$dirty && addemployeeform.firstname.$error.required" class="text-danger field-validation-error">This is a required field</span>
+                                  <span ng-show="addemployeeform.firstname.$error.pattern" class="text-danger field-validation-error">This field is invalid </span>
+                              </div>
+                          </div>
+                          <div class="col-md-6 required">
+                              <label class="col-sm-4 control-label">Last Name</label>
+                              <div class="col-sm-8">
+                                  <input type="text" class="form-control" ng-model="Employeedetail.LastName" name="lastname" id="lastname" ng-pattern="/^[a-zA-Z,.']*$/" maxlength="30" required>
+                                  <span ng-show="addemployeeform.$dirty && addemployeeform.lastname.$error.required" class="text-danger field-validation-error">This is a required field</span>
+                                  <span ng-show="addemployeeform.lastname.$error.pattern" class="text-danger field-validation-error">This field is invalid </span>
+                              </div>
+                          </div>
+                          <div class="clearfix"></div>
+                          <div class="col-md-6 required">
+                              <label class="col-sm-4 control-label">Type</label>
+                              <div class="col-sm-8">
+                                  <select ng-model="Employeedetail.RoleID" ng-change="Typeonchange()" class="form-control" id="emptype" name="emptype" required>
+                                      <option value="">SELECT</option>
+                                      <option ng-repeat="item in rolelist" value="{{item.RoleID}}">{{item.Name}}</option>
+                                  </select>
+                                  
+                                  <span ng-show="addemployeeform.$dirty && addemployeeform.emptype.$error.required" class="text-danger field-validation-error">This is a required field</span>
+                              </div>
+                          </div>
+
+                          <div class="col-md-6 required">
+                              <label class="col-sm-4 control-label">Email</label>
+                              <div class="col-sm-8">
+                                  <input type="email" class="form-control" ng-model="Employeedetail.Email" name="empemail" id="empemail" required>
+                                  <span ng-show="addemployeeform.$dirty && addemployeeform.empemail.$error.required" class="text-danger field-validation-error">This is a required field</span>
+                                  <span ng-show="addemployeeform.$dirty && !addemployeeform.empemail.$error.required && addemployeeform.empemail.$invalid" class="text-danger field-validation-error">This field is invalid </span>
+                                </div>
+                          </div>
+
+                          <div class="col-md-6 required">
+                              <label class="col-md-4 control-label">Date of Hire</label>
+                              <div class="col-md-8">
+                                  <div class="input-group date form_date"  data-date-format="mm/dd/yyyy" data-link-field="dtp_dateofhire" data-link-format="mm/dd/yyyy">
+                                      <input class="form-control" size="16" type="text" name="dateofhire" id="dateofhire" ng-model="Employeedetail.DateofHire" readonly>
+                                      <span class="input-group-addon"><span class="fa fa-calendar"> </span> </span>
+                                  </div>
+                                  <input type="hidden" name="dtp_dateofhire" id="dtp_dateofhire" value="" />
+
+
+                              </div>
+                          </div>
+
+                          <div class="col-md-6 required">
+                              <label class="col-md-4 control-label">Date in Position</label>
+                              <div class="col-md-8">
+                                  <div class="input-group date form_date" data-date-format="mm/dd/yyyy" data-link-field="dtp_dateinposistion" data-link-format="mm/dd/yyyy">
+                                      <input class="form-control" size="16" type="text" name="dateinposistion" id="dateinposistion"  ng-model="Employeedetail.DateInPosition" readonly>
+                                      <span class="input-group-addon"><span class="fa fa-calendar"> </span> </span>
+                                  </div>
+                                  <input type="hidden" name="dtp_dateinposistion" id="dtp_dateinposistion" value="" />
+                              </div>
+                          </div>
+
+                      </div>
+                  </div>   <!--employee-details-->
+
+
+                  <div class="clearfix"></div>
+
+
+                  <div class="branch-location" ng-if="Employeedetail.RoleID==RolesType.SalesRep|| Employeedetail.RoleID==RolesType.SalesManager|| Employeedetail.RoleID==RolesType.GeneralManager||Employeedetail.RoleID==RolesType.NonSalesEmployee">
+                      <!--branch-location-->
+
+                      <div class="col-md-6" style="margin-bottom: 0px;"><div class="col-md-12"><h2>Branch Location</h2></div></div>
+
+                      <div class="col-md-12 row">
+                          <div class="col-md-6  required">
+                              <label class="col-sm-4 control-label">Primary Branch</label>
+                              <div class="col-sm-8">
+                                  <select ng-model="Employeedetail.PrimaryBranch" class="form-control" name="primarybranch" id="primarybranch" required>
+                                      <option value="">SELECT</option>
+                                      <option ng-repeat="item in Brancheslists | filter:{ IsActive: true }" value="{{item.BranchID}}">{{item.BranchName}}</option>
+                                  </select>
+                                  <span ng-show="addemployeeform.$dirty && addemployeeform.primarybranch.$error.required" class="text-danger field-validation-error">This is a required field</span>
+                              </div>
+                          </div>
+                          <div class="col-md-6" ng-if="Employeedetail.RoleID==RolesType.SalesRep">
+                              <label class="col-sm-4 control-label">Secondary Branch(es)</label>
+                              <div isteven-multi-select
+                                   input-model="SecondaryBrancheslists"
+                                   output-model="Employeedetail.SecondaryBranchList"
+                                   button-label="BranchName"
+                                   item-label="BranchName"
+                                   tick-property="checked">
+                              </div>
+                              <!--<div ng-dropdown-multiselect="" options="SecondaryBranchlist" selected-model="Employeedetail.SecondaryBranch" checkboxes="true"></div>-->
+                              <!--<div class="col-sm-8">
+                                  <select ng-model="Employeedetail.SecondaryBranch" class="form-control">
+                                      <option value="">SELECT</option>
+                                      <option ng-repeat="item in Brancheslists" value="{{item.BranchID}}">{{item.BranchName}}</option>
+                                  </select>
+                                  <span ng-show="addemployeeform.$dirty && addemployeeform.secondarybranch.$error.required" class="text-danger field-validation-error">This is a required field</span>
+                              </div>-->
+                          </div>
+                      </div>
+                  </div>   <!--branch-location-->
+
+                  <div class="clearfix"></div>
+
+                  <div class="reporting-to" ng-if="Employeedetail.RoleID==RolesType.SalesRep|| Employeedetail.RoleID==RolesType.SalesManager||Employeedetail.RoleID==RolesType.NonSalesEmployee">
+                      <!--Reporting To-->
+
+                      <div class="col-md-6" style="margin-bottom: 0px;"><div class="col-md-12"><h2>Reporting To</h2></div></div>
+
+                      <div class="col-md-12 row">
+                          <div class="col-md-6" ng-if="Employeedetail.RoleID==RolesType.SalesRep">
+                              <label class="col-sm-4 control-label">Sales Manager</label>
+                              <div class="col-sm-8">
+                                  <select ng-model="Employeedetail.ReportMgr" class="form-control">
+                                      <option value="">SELECT</option>
+                                      <option ng-repeat="item in SalesManagerslists" value="{{item.UID}}">{{item.FirstName +' '+ item.LastName}}</option>
+                                  </select>
+                              </div>
+                          </div>
+                          <div class="col-md-6 required" ng-if="Employeedetail.RoleID==RolesType.SalesRep || Employeedetail.RoleID==RolesType.SalesManager||Employeedetail.RoleID==RolesType.NonSalesEmployee">
+                              <label class="col-sm-4 control-label">General Manager</label>
+                              <div class="col-sm-8">
+                                  <select ng-model="Employeedetail.ApproveMgr" name="gm" id="gm" class="form-control" required>
+                                      <option value="">SELECT</option>
+                                      <option ng-repeat="item in GeneralManagerslists" value="{{item.UID}}">{{item.FirstName +' '+ item.LastName}}</option>
+                                  </select>
+                                  <span ng-show="addemployeeform.$dirty && addemployeeform.gm.$error.required" class="text-danger field-validation-error">This is a required field</span>
+                              </div>
+                          </div>
+                      </div>
+                  </div><!--Reporting To-->
+
+              </div>
+          </div><!--form-wrapper-->
+
+         
+
+
+              <div ng-if="Employeedetail.RoleID==RolesType.SalesRep" class="form-wrapper top-space">
+                  <!--form-wrapper-->
+                  <div class="form-group row">
+
+                      <div class="set-bonus-parameters col-md-12 row">
+                          <!--Set Bonus Parameters-->
+                          <div class="col-md-6" style="margin-bottom: 0px;"><div class="col-md-12"><h2>Base Pay Details</h2></div></div>
+                          <div class="clearfix"></div>
+                          <div class="col-md-8  required">
+                              <label class="col-sm-3 control-label">Pay Plan Name</label>
+                              <div class="col-sm-6">
+                                  <select ng-model="Employeedetail.PayPlanID" class="form-control" name="planname" id="planname" required>
+                                      <option value="">SELECT</option>
+                                      <option ng-repeat="item in Planlists" value="{{item.PlanID}}">{{item.PlanName}}</option>
+                                  </select>
+                                  <span ng-show="addemployeeform.$dirty && addemployeeform.planname.$error.required" class="text-danger field-validation-error">This is a required field</span>
+                              </div>
+                              <div class="col-sm-3">
+                                  <span><a href="javascript:void(0)" ng-if="Employeedetail.PayPlanID" ng-click="ModalViewPayPlan(Employeedetail.PayPlanID)" class="view-plan-details">View Plan Details</a></span>
+                              </div>
+                          </div>
+                          <div class="clearfix"></div>
+                          <div class="draw-salary top-space">
+                              <!--draw-salary-->
+
+                              <div class="col-md-6">
+                                  <label class="col-sm-4 control-label">Salary </label>
+                                  <div class="col-sm-8">
+                                      <label class="radio-inline">
+                                          <input type="radio" name="" id="salary" ng-model="Employeedetail.BPSalary" ng-value="true" ng-click="BPSalaryonclick()" ng-checked="true">
+                                          Yes
+                                      </label>
+                                      <label class="radio-inline">
+                                          <input type="radio" name="" id="salary" ng-value="false" ng-model="Employeedetail.BPSalary" ng-click="BPSalaryonclick()">
+                                          No
+                                      </label>
+                                  </div>
+                              </div>
+
+
+
+
+                              <div  ng-if="Employeedetail.BPSalary==true" class="col-md-3 required">
+                                  <label class="col-sm-12 control-label">Monthly Amount</label>
+                                  <div class="col-sm-12 required">
+                                      <div class="input-group">
+                                          <span class="input-group-addon">$</span>
+                                          <input type="text" class="form-control" aria-label="Amount (to the nearest dollar)" ng-model="Employeedetail.MonthAmount" name="monamount" id="monamount" ng-pattern="/^[0-9]+(\.[0-9]{1,3})?$/" maxlength="20" required>
+                                      </div>
+                                      <div>
+                                          <span ng-show="addemployeeform.$dirty && addemployeeform.monamount.$error.required" class="text-danger field-validation-error">This is a required field</span>
+                                          <span ng-show="addemployeeform.monamount.$error.pattern" class="text-danger field-validation-error">This field is invalid </span>
+                                      </div>
+                                  </div>
+                              </div>
+
+                              <div class="clearfix"></div>
+
+                              <div class="col-md-6">
+                                  <label class="col-sm-4 control-label">Draw</label>
+                                  <div class="col-sm-8">
+                                      <label class="radio-inline">
+                                          <input type="radio" name="" id="yes" ng-model="Employeedetail.BPDraw" ng-value="true" ng-checked="true" ng-click="BPDrawonclick()">
+                                          Yes
+                                      </label>
+                                      <label class="radio-inline">
+                                          <input type="radio" name="" id="no" ng-value="false" ng-model="Employeedetail.BPDraw" ng-click="BPDrawonclick()">
+                                          No
+                                      </label>
+                                  </div>
+                              </div>
+                          </div><!--draw-salary-->
+                          <div >
+                              <!--if check for draw-->
+                              <div class="col-md-3 required" ng-if="Employeedetail.BPDraw==true">
+                                  <label class="col-sm-12 control-label">Draw Amount</label>
+                                  <div class="col-sm-12">
+                                      <div class="input-group">
+                                          <span class="input-group-addon">$</span>
+                                          <input type="text" class="form-control" aria-label="Amount (to the nearest dollar)" ng-model="Employeedetail.DDAmount" name="drawdeficitamount" id="drawdeficitamount" ng-pattern="/^[0-9]+(\.[0-9]{1,3})?$/" maxlength="20" required>
+                                      </div>
+                                      <div>
+                                         <span ng-show="addemployeeform.$dirty && addemployeeform.drawdeficitamount.$error.required" class="text-danger field-validation-error">This is a required field</span>
+                                          <span ng-show="addemployeeform.drawdeficitamount.$error.pattern" class="text-danger field-validation-error">This field is invalid </span></div>
+                                  </div>
+
+                              </div>
+
+                              <div class="col-md-6 top-space" ng-if="Employeedetail.BPDraw==true">
+                                  <label class="col-sm-4 control-label">Draw Type</label>
+                                  <div class="col-sm-8">
+                                      <label class="radio-inline">
+                                          <input type="radio" name="" id="guaranteed" ng-value="1" ng-model="Employeedetail.TypeofDraw" ng-checked="true" ng-click="Drawtypeonclick()">
+                                          Guaranteed
+                                      </label>
+                                      <label class="radio-inline">
+                                          <input type="radio" name="" id="recoverable" ng-value="2" ng-model="Employeedetail.TypeofDraw" ng-click="Drawtypeonclick()">
+                                          Recoverable
+                                      </label>
+                                  </div>
+                              </div>
+
+
+
+                              <div class="clearfix"></div>
+
+
+                              <div class="quarterly-tenure-bonus" ng-if="Employeedetail.BPDraw==true">
+                                  <!--quarterly-tenure-bonus-->
+
+                                  <div class="fields">
+
+                                      <div class="col-md-3 required" ng-if="Employeedetail.TypeofDraw==2">
+                                          <label class="col-sm-12 control-label">Draw Recovery</label>
+                                          <div class="col-sm-12">
+                                              <div class="input-group">
+                                                  <input type="text" class="form-control" aria-label="percentage" ng-model="Employeedetail.DRPercentage" name="drawrecovery" ng-pattern="/^[0-9]+(\.[0-9]{1,3})?$/" id="drawrecovery" required> <span class="input-group-addon">%</span>
+                                              </div>
+                                              <div><span ng-show="addemployeeform.$dirty && addemployeeform.drawrecovery.$error.required" class="text-danger field-validation-error">This is a required field</span></div>
+                                              <span ng-show="addemployeeform.drawrecovery.$error.pattern" class="text-danger field-validation-error">This field is invalid </span>
+                                          </div>
+                                      </div>
+                                      <div class="col-md-3 required">
+                                          <label class="col-sm-12 control-label">Draw Term</label>
+                                          <div class="col-sm-12">
+                                              <input type="text"  class="form-control" ng-model="Employeedetail.DrawTerm" name="drawterm" id="drawterm" placeholder="In Months" ng-pattern="/^[0-9]*$/" required>
+                                              <span ng-show="addemployeeform.$dirty && addemployeeform.drawterm.$error.required" class="text-danger field-validation-error">This is a required field</span>
+                                              <span ng-show="addemployeeform.drawterm.$error.pattern" class="text-danger field-validation-error">This field is invalid </span>
+                                          </div>
+                                      </div>
+
+                                      <div class="col-md-3 required">
+                                          <label class="col-sm-12 control-label">Draw Deficit Period</label>
+                                          <div class="col-sm-12">
+                                              <div name="drawdeficitperiod" id="drawdeficitperiod" class="input-group date form_date_month" data-date="">
+                                                  <input class="form-control" size="16" type="text" value="" ng-model="Employeedetail.DDPeriod" readonly>
+                                                  <span class="input-group-addon"><span class="fa fa-calendar fa-calendar-month" onclick="callCalendar()"> </span> </span>
+                                              </div>
+                                              <input type="hidden" id="dtp_drawdeficitperiod" name="dtp_drawdeficitperiod" value="" />
+                                          </div>
+                                      </div>
+                                  </div>
+                              </div><!--quarterly-tenure-bonus-->
+
+
+                          </div>
+
+                      </div> <!--Set Bonus Parameters-->
+
+                      <div class="clearfix"></div>
+
+
+
+
+                  </div>
+              </div><!--form-wrapper-->
+         
+          <div class="clearfix"></div>
+
+
+          <div class="clearfix"></div>
+
+          <div class="col-md-6 col-md-offset-6">
+              <div class="row">
+                  <ul class="pull-right btns">
+                      <li><input type="submit" value="Create" class="btn" ng-disabled="addemployeeform.$invalid"></li>
+                      <li><a class="btn" href="javascript:void(0)" ng-click="NewEmployeeCancelConfirmation()">Cancel</a></li>
+                  </ul>
+              </div>
+          </div>
+
+
+      </div><!--container-->
+            
+</form>
+</div><!--content-wrapper">-->

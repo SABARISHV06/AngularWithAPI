@@ -1,0 +1,10 @@
+E:\projects\SalesCommission\MSC\Source\Core\GlobalConfig\bin\Debug\GlobalConfig.dll.config
+E:\projects\SalesCommission\MSC\Source\Core\GlobalConfig\bin\Debug\GlobalConfig.dll
+E:\projects\SalesCommission\MSC\Source\Core\GlobalConfig\bin\Debug\GlobalConfig.pdb
+E:\projects\SalesCommission\MSC\Source\Core\GlobalConfig\obj\Debug\GlobalConfig.dll
+E:\projects\SalesCommission\MSC\Source\Core\GlobalConfig\obj\Debug\GlobalConfig.pdb
+E:\SVN\MilnerSalesCommission\Source\Core\GlobalConfig\bin\Debug\GlobalConfig.dll.config
+E:\SVN\MilnerSalesCommission\Source\Core\GlobalConfig\bin\Debug\GlobalConfig.dll
+E:\SVN\MilnerSalesCommission\Source\Core\GlobalConfig\bin\Debug\GlobalConfig.pdb
+E:\SVN\MilnerSalesCommission\Source\Core\GlobalConfig\obj\Debug\GlobalConfig.dll
+E:\SVN\MilnerSalesCommission\Source\Core\GlobalConfig\obj\Debug\GlobalConfig.pdb

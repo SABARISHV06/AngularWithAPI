@@ -1,0 +1,114 @@
+<script type="text/javascript">
+    $(document).ready(function(){
+        $('.form_date').datetimepicker({
+        language: 'en',
+        weekStart: 1,
+        todayBtn: 0,
+        autoclose: 1,
+        todayHighlight: 1,
+        startView: 3,
+        minView: 3,
+        forceParse: 0,
+        format: 'mm/dd/',
+        startDate: new Date()
+        //endDate: new Date()
+    });
+    });
+</script>
+<div id="content-wrapper">
+    <form ng-submit="salescom.submit()" name="EditPayrollConfigurationForm">
+        <div class="container">
+            <h1 class="pull-left">Payroll Configuration - {{TempPayroll.Year}}</h1><div class="pull-left form-group no-btm-margin">
+               <!--<select ng-model="TempPayroll.Year" ng-options="value.value as value.name for (key, value) in Reportdropdownyear" name="emptype" id="emptype" class="form-control" disabled></select>-->
+                
+             <!--<select ng-model="TempPayroll.Year" name="payrollyear" id="payrollyear" class="form-control" required>
+              <option value="">YEAR</option>
+                 <option ng-repeat="reportyear in Reportdropdownyear" value="{{reportyear.value}}">{{reportyear.name}}</option>
+            </select>-->
+         <span ng-show="AddPayrollConfigurationForm.$dirty && AddPayrollConfigurationForm.payrollyear.$error.required" class="text-danger field-validation-error">This is a required field</span>
+        </div>
+                <div>
+                    <ul class="btns pull-right">
+                        <li>
+                            <label>Created By: <span style="font-weight:normal">{{TempPayroll.CreatedByName}}</span></label>&nbsp;&nbsp;&nbsp;
+                            <label>Recently Modified By: <span style="font-weight:normal">{{TempPayroll.ModifiedByName}}</span></label>&nbsp;&nbsp;&nbsp;
+                        </li>
+                    </ul>
+                </div>
+                <div class="clearfix"></div>
+                <div class="table-responsive form-wrapper">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th colspan="2">Closing Date</th>
+                                <th> Date From </th>
+                                <th>Date To </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                           
+                            <tr ng-repeat="row in EditPayroll" ng-class="{'bg-danger':row.ProcessByPayroll}" >
+                                <td>
+                                    <div class="form-group no-btm-margin">
+                                        <input type="text" class="form-control" name="PeriodName{{$index}}" id="PeriodName{{$index}}" ng-model="row.Month" ng-pattern="/^[a-zA-Z0-9,.' ]*$/" maxlength="30" ng-disabled="row.ProcessByPayroll" required>
+                                        <span ng-show="EditPayrollConfigurationForm.$dirty && EditPayrollConfigurationForm['PeriodName'+$index].$error.required" class="text-danger field-validation-error">This is a required field</span>
+                                        <span ng-show="EditPayrollConfigurationForm['PeriodName'+$index].$error.pattern" class="text-danger field-validation-error">This field is invalid </span>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="form-group no-btm-margin" >
+                                        <!--<select name="datefrommonth{{$index}}" id="datefrommonth{{$index}}" class="form-control"  ng-model="row.Period" ng-options="label for label in Months" ng-change="SetEditDateTo($index);; UpdateNumberOfDays($index);" ng-disabled="row.ProcesByPayroll">                             
+                                             <option value="">Month</option>
+                                        </select>-->
+
+                                        <select ng-model="row.Period" class="form-control" name="datefrommonth{{$index}}" id="datefrommonth{{$index}}" ng-change="SetEditDateTo($index); UpdateEditNumberOfDays($index, row.Period);" ng-disabled="row.ProcessByPayroll" required>
+                                            <option ng-repeat="item in Months" value="{{item}}">{{item}}</option>
+                                        </select>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="form-group no-btm-margin">
+                                      <select name="datefromday{{$index}}" class="form-control" id="datefromday{{$index}}" ng-model="row.Day" ng-options="label for label in Days | limitTo:EditNumberOfDays[$index]" ng-change="SetEditDateTo($index)" ng-disabled="row.ProcessByPayroll">
+                                            <option value="">DAY</option>
+                                        </select>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="form-group no-btm-margin"><input type="text" class="form-control" readonly name="datefrom{{$index}}" id="datefrom{{$index}}" ng-model="row.DateFrom|date:'MM/dd'" /></div>
+                                </td>
+                                <td>
+                                    <div class="form-group no-btm-margin"><input type="text" class="form-control" readonly name="dateto{{$index}}" id="dateto{{$index}}" ng-model="row.DateTo|date:'MM/dd'" /></div>
+                                </td>
+                                <td>
+                                    <ul class="add-remove-icons no-padding">
+                                        <li><a href="javascript:void(0);" ng-click="EditNewPayrollConfigRow()"><i class="fa fa-lg fa-plus active"></i></a></li>
+                                        <li ng-if="EditPayroll.length!=1"><a href="javascript:void(0);" ng-click="RemoveEditNewPayrollConfigRow($index,row)" ><i class="fa fa-lg fa-remove disabled"></i></a></li>
+                                    </ul>
+                                </td>
+                            </tr>
+
+                        </tbody>
+                    </table>
+
+                    <div class="clearfix"></div>
+                </div>
+                <div class="clearfix"></div>
+
+                <div class="col-md-6 col-md-offset-6">
+                    <div class="row">
+                        <ul class="pull-right btns">
+                            <!--<li><a class="btn" ng-click="AddPlan()" href="javascript:void(0);" >Save</a></li>-->
+                            <li><input type="button" value="Save" class="btn" ng-disabled="AddEditBranchForm.$invalid" ng-click="UpdatePayroll()"></li>
+                            <li><a class="btn" href="javascript:void(0)" ng-click="GoToPayrollConfigurationDetails()">Cancel</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+    </form>
+</div>
+<script type="text/javascript">
+    $('.search-icon').click(function () {
+        $('.search').val('').toggle();
+    });
+</script>

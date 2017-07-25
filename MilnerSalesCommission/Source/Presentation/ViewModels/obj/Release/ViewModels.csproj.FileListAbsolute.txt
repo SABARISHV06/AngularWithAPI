@@ -1,0 +1,8 @@
+E:\projects\SalesCommission\MSC\Source\Presentation\ViewModels\bin\Release\ViewModels.dll
+E:\projects\SalesCommission\MSC\Source\Presentation\ViewModels\bin\Release\ViewModels.pdb
+E:\projects\SalesCommission\MSC\Source\Presentation\ViewModels\obj\Release\ViewModels.dll
+E:\projects\SalesCommission\MSC\Source\Presentation\ViewModels\obj\Release\ViewModels.pdb
+E:\SVN\MilnerSalesCommission\Source\Presentation\ViewModels\bin\Release\ViewModels.dll
+E:\SVN\MilnerSalesCommission\Source\Presentation\ViewModels\bin\Release\ViewModels.pdb
+E:\SVN\MilnerSalesCommission\Source\Presentation\ViewModels\obj\Release\ViewModels.dll
+E:\SVN\MilnerSalesCommission\Source\Presentation\ViewModels\obj\Release\ViewModels.pdb
